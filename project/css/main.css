@@ -1,0 +1,14 @@
+.navigationBar 
+{
+    background-color: #191919;
+    color: #FFF;
+    border-bottom: 3px solid #CED0CE;
+    height: 65px;
+    width: 100%;
+    padding: 0px;
+}
+
+body
+{
+    background-color: #E6E8E6;
+}
