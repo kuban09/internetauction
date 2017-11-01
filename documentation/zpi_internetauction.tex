@@ -251,19 +251,19 @@
 	\paragraph{Tytuł zadania:} Logowanie
 	\paragraph{Opis zadania:} Możliwość zalogowania się na swoje konto;
 	\paragraph{Priorytet:} Wysoki
-	\paragraph{Definition of Done:} Użytkownik posiadający konto na serwisie wpisując swoje dane \emph{(tj. login oraz hasło)}, może bez problemu zalogować się na nie. Należy zaimplementować wiadomość zwrotną gdy użytkownik wpisał złe dane.
+	\paragraph{Definition of Done:} Stworzenie formularza logowania (tj. login oraz hasło) pobierające owe dane, następnie w postaci zapytania MySQL musi sprawdzać czy istnieją dane w bazie danych oraz czy pasują do jednego użytkownika. Należy zaimplementować wiadomość zwrotną gdy użytkownik wpisał złe dane (nie ma takiego rekordu w bazie danych bądź hasło nie pasuje do loginu). Po udanej operacji (logowanie powiodło się) należy stworzyć użytkownikowi sesję oraz przekierować go na stronę główną serwisu.
 	
 	\subsection{Backlog Item 3}
 	\paragraph{Tytuł zadania:} Rejestracja
 	\paragraph{Opis zadania:} Możliwość założenia nowego konta;
 	\paragraph{Priorytet:} Wysoki
-	\paragraph{Definition of Done:} Każda osoba wchodząca na stronę serwisu musi posiadać możliwość założenia konta. Wpisując podstawowe dane (tj. imię, nazwisko, miejscowość, numer telefonu, e-mail, numer konta bankowego) konto musi zostać stworzone w bazie danych. Należy zaimplementować funckję sprawdzająca istniejące loginy użytkowników oraz email aby jedna nazwa użytkownika i email należał do jednej osoby.
+	\paragraph{Definition of Done:} Każda osoba powinna mieć możliwość założenia swojego indywidualnego konta. Należy stworzyć formularz z podstawowymi danymi (\emph{tj. login, hasło, imię, nazwisko, e-mail, miejscowość, numer telefonu, numer konta bankowego}). Wpisane przez użytkownika dane muszą być pobierane metodą \emph{POST}. Finalnym efektem rejestracji jest wysłanie zapytania do bazy danych, który utworzy nowy rekord w tabeli \emph{users} z danymi użytkownika.
 	
 	\subsection{Backlog Item 4}
 	\paragraph{Tytuł zadania:} Dodanie aukcji
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi wystawienia nowej aukcji;
 	\paragraph{Priorytet:} Wysoki
-	\paragraph{Definition of Done:} Każda osoba posiadająca swoje konto musi mieć możliwość wybrania formy aukcji (tj. licytacja, opcja ,,KUP TERAZ'' lub obydwie opcję).
+	\paragraph{Definition of Done:} Każda osoba zalogowana na swoję konto powinna mieć tę opcję dostępną. Osoba, która nie jest zalogowana na swoje konto powinna dostać wiadomość zwrotną, że ta opcja jest tylko dla osób zalogowanych lub całkowicie zablokować dostęp. Tworzenie nowego rekordu w bazie danych w tabeli \emph{auction}.
 	
 	\subsection{Backlog Item 5}
 	\paragraph{Tytuł zadania:} Formularz aukcyjny
