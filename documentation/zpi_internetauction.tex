@@ -186,18 +186,66 @@
 		\item Product Owner: Tomasz Zabrzewski.
 		\item Development Team: Damian Klimek, Jakub Niewczas.
 	\end{itemize}
-
-	
-	\subsection*{<<Tutaj dodawać kolejne Sprint'y>>}
 	
 	\section{Product Backlog}
 	
-	
 	\subsection{Backlog Item 1}
 	\paragraph{Tytuł zadania:} Baza danych
-	\paragraph{Opis zadania:} Możliwość zapisania danych.
+	\paragraph{Opis zadania:} Przygotowanie struktury bazy danych.
 	\paragraph{Priorytet:} Wysoki
-	\paragraph{Definition of Done:} Użytkownik po tym jak stworzy nowe konto będzie miał możliwość zapisania swoich danych w bazie. Wszystkie stworzone aukcje przez użytkownika będą również tam przechowywane.
+	\paragraph{Definition of Done:} Baza danych powinna zawierać tyle tabel ile potrzeba na stworzenie aplikacji. Środowisko bazodanowe \textbf{MySQL}. Baza danych serwisu musi posiadać następujące struktury.
+	\vspace{0.5cm}
+	\\Struktura tabeli \textbf{users}:
+	\begin{itemize}
+		\item \textbf{id} $\to$ [typ - \verb|INT|, \verb|AUTO_INCREMENT|];
+		\item \textbf{username} $\to$ [typ - \verb|VARCHAR(32)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{password} $\to$ [typ - \verb|VARCHAR(32)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{firstname} $\to$ [typ - \verb|VARCHAR(64)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{surname} $\to$ [typ - \verb|VARCHAR(64)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{email} $\to$ [typ - \verb|VARCHAR(64)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{phone} $\to$ [typ - \verb|VARCHAR(9)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{place} $\to$ [typ - \verb|VARCHAR(128)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{bank} $\to$ [typ - \verb|VARCHAR(26)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+	\end{itemize}
+
+	\vspace{0.5cm}
+	Struktura tabeli \textbf{categories}:
+	\begin{itemize}
+		\item \textbf{id} $\to$ [typ - \verb|INT|, \verb|AUTO_INCREMENT|];
+		\item \textbf{name} $\to$ [typ - \verb|VARCHAR(64)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+	\end{itemize}
+
+	\vspace{0.5cm}
+	Struktura tabeli \textbf{auctions}:
+	\begin{itemize}
+		\item \textbf{id} $\to$ [typ - \verb|INT|, \verb|AUTO_INCREMENT|];
+		\item \textbf{name} $\to$ [typ - \verb|VARCHAR(128)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{buy\_prize} $\to$ [typ - \verb|VARCHAR(16)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{bidding\_prize} $\to$ [typ - \verb|VARCHAR(16)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{description} $\to$ [typ - \verb|VARCHAR(512)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{image} $\to$ [typ - \verb|VARCHAR(256)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{last\_bidder} $\to$ [typ - \verb|INT|, relacja z kolumną id z tabeli users];
+	\end{itemize}
+
+	\vspace{0.5cm}
+	Struktura tabeli \textbf{comments}:
+	\begin{itemize}
+		\item \textbf{id} $\to$ [typ - \verb|INT|, \verb|AUTO_INCREMENT|];
+		\item \textbf{message} $\to$ [typ - \verb|VARCHAR(512)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{owner} $\to$ [typ - \verb|INT|, relacja z kolumną id z tabeli users];
+		\item \textbf{auction} $\to$ [typ - \verb|INT|, relacja z kolumną id z tabeli auctions];
+	\end{itemize}
+
+	\vspace{0.5cm}
+	Struktura tabeli \textbf{messages}:
+	\begin{itemize}
+		\item \textbf{id} $\to$ [typ - \verb|INT|, \verb|AUTO_INCREMENT|];
+		\item \textbf{owner} $\to$ [typ - \verb|INT|, relacja z kolumną id z tabeli users];
+		\item \textbf{recipient} $\to$ [typ - \verb|INT|, relacja z kolumną id z tabeli users];
+		\item \textbf{title} $\to$ [typ - \verb|VARCHAR(128)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{message} $\to$ [typ - \verb|VARCHAR(512)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{readed} $\to$ [typ - \verb|INT|];
+	\end{itemize} 
 	
 	\subsection{Backlog Item 2}
 	\paragraph{Tytuł zadania:} Logowanie
