@@ -247,44 +247,17 @@
 		\item \textbf{readed} $\to$ [typ - \verb|INT|];
 	\end{itemize} 
 	
-	\subsection{Backlog Item 2}
-	\paragraph{Tytuł zadania:} Logowanie
-	\paragraph{Opis zadania:} Możliwość zalogowania się na swoje konto;
-	\paragraph{Priorytet:} Wysoki
-	\paragraph{Definition of Done:} Stworzenie formularza logowania (tj. login oraz hasło) pobierające owe dane, następnie w postaci zapytania MySQL musi sprawdzać czy istnieją dane w bazie danych oraz czy pasują do jednego użytkownika. Należy zaimplementować wiadomość zwrotną gdy użytkownik wpisał złe dane (nie ma takiego rekordu w bazie danych bądź hasło nie pasuje do loginu). Po udanej operacji (logowanie powiodło się) należy stworzyć użytkownikowi sesję oraz przekierować go na stronę główną serwisu.
 	
-	\subsection{Backlog Item 3}
+	\subsection{Backlog Item 2}
 	\paragraph{Tytuł zadania:} Rejestracja
 	\paragraph{Opis zadania:} Możliwość założenia nowego konta;
 	\paragraph{Priorytet:} Wysoki
 	\paragraph{Definition of Done:} Każda osoba powinna mieć możliwość założenia swojego indywidualnego konta. Należy stworzyć formularz z podstawowymi danymi (\emph{tj. login, hasło, imię, nazwisko, e-mail, miejscowość, numer telefonu, numer konta bankowego}). Wpisane przez użytkownika dane muszą być pobierane metodą \emph{POST}. Finalnym efektem rejestracji jest wysłanie zapytania do bazy danych, który utworzy nowy rekord w tabeli \emph{users} z danymi użytkownika.
 	
-	\subsection{Backlog Item 4}
-	\paragraph{Tytuł zadania:} Dodanie aukcji
-	\paragraph{Opis zadania:} Umożliwienie użytkownikowi wystawienia nowej aukcji;
-	\paragraph{Priorytet:} Wysoki
-	\paragraph{Definition of Done:} Każda osoba zalogowana na swoję konto powinna mieć tę opcję dostępną. Osoba, która nie jest zalogowana na swoje konto powinna dostać wiadomość zwrotną, że ta opcja jest tylko dla osób zalogowanych lub całkowicie zablokować dostęp. Tworzenie nowego rekordu w bazie danych w tabeli \emph{auction}.
+
 	
-	\subsection{Backlog Item 5}
-	\paragraph{Tytuł zadania:} Formularz aukcyjny
-	\paragraph{Opis zadania:} Umożliwienie użytkownikowi podanie niezbędnych danych dotyczących aukcji;
-	\paragraph{Priorytet:} Wysoki
-	\paragraph{Definition of Done:} Każda osoba podczas wystawiania nowego przedmiotu na akcję musi mieć możliwość wpisania niezbędnych danych, które pozwolą odróżniać od siebie inne aukcje (tj. konkretna nazwa aukcji, opis przedmiotu, cena, zdjęcie).
-	
-	\subsection{Backlog Item 6}
-	\paragraph{Tytuł zadania:} Komentarze
-	\paragraph{Opis zadania:} Umożliwienie użytkownikowi komentowania konkretnych aukcji;
-	\paragraph{Priorytet:} Niski
-	\paragraph{Definition of Done:} Osoba przeglądająca aukcje powinna mieć możliwość napisania komentarza dotyczącego aukcji. Opcję tą posiadać mogą tylko zalogowani użytkownicy serwisu, dla osób, które nie posiadają konta możliwość będzie wyłączona.
-	
-	\subsection{Backlog Item 7}
-	\paragraph{Tytuł zadania:} Ulubione
-	\paragraph{Opis zadania:} Umożliwienie użytkownikowi zapisania aukcji w jednym miejscu;
-	\paragraph{Priorytet:} Niski
-	\paragraph{Definition of Done:} Każda osoba przeglądająca serwis aukcyjny powinna mieć możliwość zapisania interesującej aukcji, by potem móc ją wyszukać w łatwy sposób.
-	
-	\subsection{Backlog Item 8}
-	\paragraph{Tytuł zadania:} Zabezpieczenie
+	\subsection{Backlog Item 3}
+	\paragraph{Tytuł zadania:} Zabezpieczenia
 	\paragraph{Opis zadania:} Wymuszenie od użytkownika wprowadzenia danych spełniających określone kryteria;
 	\paragraph{Priorytet:} Niski
 	\paragraph{Definition of Done:} Użytkownik tworzący nowe konto musi podać hasło składające się z minimum 8 znaków w tym:
@@ -295,8 +268,8 @@
 		\item znaki niealfabetyczne (np. \verb|!, @, #, &|);
 	\end{itemize}
 	Hasło, które będzie podawał użytkownik rejestrując lub logują się na swoje konto powinno być niewidoczne dla osób postronnych.
-	
-	\subsection{Backlog Item 9}
+
+	\subsection{Backlog Item 4}
 	\paragraph{Tytuł zadania:} Weryfikowanie danych
 	\paragraph{Opis zadania:} Sprawdzanie wprowadzanych danych przez użytkownika podczas rejestracji;
 	\paragraph{Priorytet:} Wysoki
@@ -310,37 +283,67 @@
 		\item konto bankowe - powinno składać się z 26 cyfr.	
 	\end{itemize}
 	
-	\subsection{Backlog Item 10}
+	\subsection{Backlog Item 5}
+	\paragraph{Tytuł zadania:} Logowanie
+	\paragraph{Opis zadania:} Możliwość zalogowania się na swoje konto;
+	\paragraph{Priorytet:} Wysoki
+	\paragraph{Definition of Done:} Stworzenie formularza logowania (tj. login oraz hasło) pobierające owe dane, następnie w postaci zapytania MySQL musi sprawdzać czy istnieją dane w bazie danych oraz czy pasują do jednego użytkownika. Należy zaimplementować wiadomość zwrotną gdy użytkownik wpisał złe dane (nie ma takiego rekordu w bazie danych bądź hasło nie pasuje do loginu). Po udanej operacji (logowanie powiodło się) należy stworzyć użytkownikowi sesję oraz przekierować go na stronę główną serwisu.
+	
+	
+	
+	\subsection{Backlog Item 6}
 	\paragraph{Tytuł zadania:} Zmiana danych
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi zmiany swoich podstawowych danych;
 	\paragraph{Priorytet:} Średni
 	\paragraph{Definition of Done:} Każda osoba posiadająca swoje konto powinna mieć możliwość zmiany swoich podstawowych danych na nowe (tj. imię, nazwisko, e-mail, miejscowość, numer telefonu, numer konta bankowego, hasło). Zmienione dane powinny nadpisać się w bazie danych.
 	
-	\subsection{Backlog Item 11}
-	\paragraph{Tytuł zadania:} Licznik
-	\paragraph{Opis zadania:} Umożliwienie użytkownikowi sprawdzenia ilości odsłon aukcji;
-	\paragraph{Priorytet:} Niski
-	\paragraph{Definition of Done:} Na każdej stronie aukcji powinien znajdować się licznik, który będzie zliczał ilość odwiedzin informując przy tym o zainteresowaniu daną aukcją.
 	
-	\subsection{Backlog Item 12}
-	\paragraph{Tytuł zadania:} Edytowanie aukcji
-	\paragraph{Opis zadania:} Umożliwienie użytkownikowi edytowania danych swojej aukcji;
-	\paragraph{Priorytet:} Średni
-	\paragraph{Definition of Done:} Użytkownik, który wystawił przedmiot na aukcję powinien mieć możliwość edytowania danych związanych z aukcją. Zmienione dane powinny nadpisać się w bazie danych.
-	
-	\subsection{Backlog Item 13}
+	\subsection{Backlog Item 7}
 	\paragraph{Tytuł zadania:} Wyszukiwarka
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi wyszukiwania interesujących przedmiotów;
 	\paragraph{Priorytet:} Średni
 	\paragraph{Definition of Done:} Każda osoba przeglądająca serwis aukcyjny powinna mieć możliwość wpisania hasła, które umożliwi mu wyszukanie interesującego go przedmiotu.
 	
-	\subsection{Backlog Item 14}
+	
+	\subsection{Backlog Item 8}
+	\paragraph{Tytuł zadania:} Dodanie aukcji
+	\paragraph{Opis zadania:} Umożliwienie użytkownikowi wystawienia nowej aukcji;
+	\paragraph{Priorytet:} Wysoki
+	\paragraph{Definition of Done:} Każda osoba zalogowana na swoję konto powinna mieć tę opcję dostępną. Osoba, która nie jest zalogowana na swoje konto powinna dostać wiadomość zwrotną, że ta opcja jest tylko dla osób zalogowanych lub całkowicie zablokować dostęp. Tworzenie nowego rekordu w bazie danych w tabeli \emph{auction}.
+	
+	\subsection{Backlog Item 95}
+	\paragraph{Tytuł zadania:} Formularz aukcyjny
+	\paragraph{Opis zadania:} Umożliwienie użytkownikowi podanie niezbędnych danych dotyczących aukcji;
+	\paragraph{Priorytet:} Wysoki
+	\paragraph{Definition of Done:} Każda osoba podczas wystawiania nowego przedmiotu na akcję musi mieć możliwość wpisania niezbędnych danych, które pozwolą odróżniać od siebie inne aukcje (tj. konkretna nazwa aukcji, opis przedmiotu, cena, zdjęcie).
+	
+	
+	\subsection{Backlog Item 10}
+	\paragraph{Tytuł zadania:} Edytowanie aukcji
+	\paragraph{Opis zadania:} Umożliwienie użytkownikowi edytowania danych swojej aukcji;
+	\paragraph{Priorytet:} Średni
+	\paragraph{Definition of Done:} Użytkownik, który wystawił przedmiot na aukcję powinien mieć możliwość edytowania danych związanych z aukcją. Zmienione dane powinny nadpisać się w bazie danych.
+	
+	\subsection{Backlog Item 11}
 	\paragraph{Tytuł zadania:} Usuwanie aukcji
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi usunięcia swojej aukcji;
 	\paragraph{Priorytet:} Średni
 	\paragraph{Definition of Done:} Użytkownik, który wystawił przedmiot na aukcję powinien mieć możliwość całkowitego usunięcia aukcji z serwisu. Usuwana aukcja powinna usunąć się również z bazy danych.
 	
-	\subsection{Backlog Item 15}
+	
+	\subsection{Backlog Item 12}
+	\paragraph{Tytuł zadania:} Lista aukcji
+	\paragraph{Opis zadania:} Umożliwienie użytkownikowi wyświetlania dostępnych aukcji;
+	\paragraph{Priorytet:} Wysoki
+	\paragraph{Definition of Done:} Każda osoba odwiedzająca serwis powinna mieć możliwość zobaczenia wszystkich dostępnych aukcji na stronie głównej.
+	
+	\subsection{Backlog Item 13}
+	\paragraph{Tytuł zadania:} Kupowanie przedmiotu
+	\paragraph{Opis zadania:} Umożliwienie użytkownikowi zakupu;
+	\paragraph{Priorytet:} Średni
+	\paragraph{Definition of Done:} Każda osoba posiadająca konto powinna mieć możliwość zakupu interesującego przedmiotu poprzez opcję KUP TERAZ lub wygranie licytacji.
+	
+	\subsection{Backlog Item 14}
 	\paragraph{Tytuł zadania:} Informacja zwrotna
 	\paragraph{Opis zadania:} Przesyłanie danych osób biorących udział w transakcji;
 	\paragraph{Priorytet:} Wysoki
@@ -350,29 +353,43 @@
 		\item od sprzedającego do kupującego - imię, nazwisko, numer konta bankowego, numer transakcji, numer telefonu;
 	\end{itemize}.
 	
-	\subsection{Backlog Item 16}
+	\subsection{Backlog Item 15}
 	\paragraph{Tytuł zadania:} Historia
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi przeglądania swoich starych transakcji;
 	\paragraph{Priorytet:} Niski
 	\paragraph{Definition of Done:} Każda osoba posiadająca swoje konto powinna mieć możliwość przeglądania swoich wszystkich wcześniejszych transakcji w tym oznaczonych jako kupione, sprzedane lub wygasłe.
 	
-	\subsection{Backlog Item 17}
+	
+	\subsection{Backlog Item 16}
 	\paragraph{Tytuł zadania:} Wiadomości
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi wysyłania i odbierania prywatnych wiadomości od innych użytkowników;
 	\paragraph{Priorytet:} Średni
 	\paragraph{Definition of Done:} Każda osoba posiadająca konto powinna mieć możlwiość wysyłania prywatnych wiadomości do innych użytkowników serwisu oraz również odbierania.
 	
+	\subsection{Backlog Item 17}
+	\paragraph{Tytuł zadania:} Komentarze
+	\paragraph{Opis zadania:} Umożliwienie użytkownikowi komentowania konkretnych aukcji;
+	\paragraph{Priorytet:} Niski
+	\paragraph{Definition of Done:} Każda osoba zalogowana na swoje konto powinna mieć możliwość skorzystania z przycisku "Komentarz", który znajduje się przy przeglądanej aukcji i napisania swojego komentarza dot. ów aukcji w polu tekstowym, które powinno się pojawić po kliknięciu przycisku.
+	
+	
 	\subsection{Backlog Item 18}
-	\paragraph{Tytuł zadania:} Lista aukcji
-	\paragraph{Opis zadania:} Umożliwienie użytkownikowi wyświetlania dostępnych aukcji;
-	\paragraph{Priorytet:} Wysoki
-	\paragraph{Definition of Done:} Każda osoba odwiedzająca serwis powinna mieć możliwość zobaczenia wszystkich dostępnych aukcji na stronie głównej.
+	\paragraph{Tytuł zadania:} Ulubione
+	\paragraph{Opis zadania:} Umożliwienie użytkownikowi zapisania aukcji;
+	\paragraph{Priorytet:} Niski
+	\paragraph{Definition of Done:} Każda osoba zalogowana na swoje konto powinna mieć możliwość przypisania linku interesującej go aukcji do odpowiedniej zakładki w swoim profilu.
 	
 	\subsection{Backlog Item 19}
-	\paragraph{Tytuł zadania:} Kupowanie przedmiotu
-	\paragraph{Opis zadania:} Umożliwienie użytkownikowi zakupu;
-	\paragraph{Priorytet:} Średni
-	\paragraph{Definition of Done:} Każda osoba posiadająca konto powinna mieć możliwość zakupu interesującego przedmiotu poprzez opcję KUP TERAZ lub wygranie licytacji.
+	\paragraph{Tytuł zadania:} Licznik
+	\paragraph{Opis zadania:} Umożliwienie użytkownikowi sprawdzenia ilości odsłon aukcji;
+	\paragraph{Priorytet:} Niski
+	\paragraph{Definition of Done:} Na każdej stronie aukcji w dogodnym miejscu pod ogłoszeniem powinien znajdować się licznik (Wyświetleń:"ilość wyświetleń), który zapisze w sobie inf. ile razy ktoś wyświetlił ów ogłoszenie.
+	
+
+
+
+	
+
 	
 	\section{Sprint 1}
 	\subsection{Cel} Celem pierwszego Sprintu jest umożliwienie użytkownikowi założenia konta dzięki któremu będzie on mógł uzyskać dostęp do wszystkich opcji serwisu i korzystania z niego. Aby to mogło się odbyć wcześniej zostanie stworzona baza danych w której będą zapisywane wszystkie dane.
