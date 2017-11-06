@@ -312,37 +312,41 @@
 	\paragraph{Priorytet:} Średni
 	\paragraph{Definition of Done:} Panel należy podzielić na dwie grupy - dla osób zalogowanych oraz dla osób niezalogowanych. Oba panele powinny być umiejscowione na pasku nawigacji na górze ekranu. Panel dla zalogowanego użytkownika powinien być w postaci avataru użytkownika, w który można kliknąć a następnie rozwija się menu z podstawowymi akcjami \emph{(tj. edytuj dane, moje aukcje, historia zakupów, wyloguj)}. Panel dla osoby niezalogowanej powinien być w postaci napisu ,,Moje konto'', które również rozwija się po kliknięciu w napis, z którego można wybrać dwie akcję \emph{(tj. zarejestruj się, zaloguj się)}. Po kliknięciu, w któryś z odnośników z rozwijanych menu każdy powinien być przekierowywany na konkretne podstrony serwisu.
 	
-	\subsection{Backlog Item 8}
+	\subsection{Backlog Item 10}
 	\paragraph{Tytuł zadania:} Dodanie aukcji
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi wystawienia nowej aukcji;
 	\paragraph{Priorytet:} Wysoki
 	\paragraph{Definition of Done:} Każda osoba zalogowana na swoję konto powinna mieć tę opcję dostępną. Osoba, która nie jest zalogowana na swoje konto powinna dostać wiadomość zwrotną, że ta opcja jest tylko dla osób zalogowanych lub całkowicie zablokować dostęp. Tworzenie nowego rekordu w bazie danych w tabeli \emph{auction}.
 	
-	\subsection{Backlog Item 95}
+	\subsection{Backlog Item 11}
 	\paragraph{Tytuł zadania:} Formularz aukcyjny
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi podanie niezbędnych danych dotyczących aukcji;
 	\paragraph{Priorytet:} Wysoki
-	\paragraph{Definition of Done:} Każda osoba podczas wystawiania nowego przedmiotu na akcję musi mieć możliwość wpisania niezbędnych danych, które pozwolą odróżniać od siebie inne aukcje (tj. konkretna nazwa aukcji, opis przedmiotu, cena, zdjęcie).
+	\paragraph{Definition of Done:} Osoba zalogowana podczas wystawiania nowego przedmiotu na akcję musi mieć możliwość wpisania niezbędnych danych, które pozwolą odróżniać od siebie inne aukcje (tj. konkretna nazwa aukcji, opis przedmiotu, cena, zdjęcie). Formularz powinien pobierać dane metodą \emph{POST}.
 	
-	
-	\subsection{Backlog Item 10}
+	\subsection{Backlog Item 12}
 	\paragraph{Tytuł zadania:} Edytowanie aukcji
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi edytowania danych swojej aukcji;
 	\paragraph{Priorytet:} Średni
-	\paragraph{Definition of Done:} Użytkownik, który wystawił przedmiot na aukcję powinien mieć możliwość edytowania danych związanych z aukcją. Zmienione dane powinny nadpisać się w bazie danych.
+	\paragraph{Definition of Done:} Użytkownik, który wystawił przedmiot na aukcję powinien mieć możliwość edytowania danych związanych z aukcją. Należy stworzyć formularz, w którym domyślnymi wartościami kolejnych inputów będą dane wczytane z bazy danych. Dane z formularza powinny być pobierane metodą \emph{POST}. Kliknięcie przycisku \emph{submit} skutować powinno nadpisanie istniejących danych w bazie poprzez wykonanie zapytania \emph{UPDATE}.
 	
-	\subsection{Backlog Item 11}
+	\subsection{Backlog Item 13}
 	\paragraph{Tytuł zadania:} Usuwanie aukcji
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi usunięcia swojej aukcji;
 	\paragraph{Priorytet:} Średni
 	\paragraph{Definition of Done:} Użytkownik, który wystawił przedmiot na aukcję powinien mieć możliwość całkowitego usunięcia aukcji z serwisu. Usuwana aukcja powinna usunąć się również z bazy danych.
 	
-	
-	\subsection{Backlog Item 12}
+	\subsection{Backlog Item 14}
 	\paragraph{Tytuł zadania:} Lista aukcji
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi wyświetlania dostępnych aukcji;
 	\paragraph{Priorytet:} Wysoki
-	\paragraph{Definition of Done:} Każda osoba odwiedzająca serwis powinna mieć możliwość zobaczenia wszystkich dostępnych aukcji na stronie głównej.
+	\paragraph{Definition of Done:} Każda osoba odwiedzająca serwis powinna mieć możliwość zobaczenia wszystkich dostępnych aukcji. Na stronie głównej powinny być wczytane wszystkie aukcje z bazy danych, które są aktywne (nie przeminął czas zakończenia aukcji). Aukcje powinny być wyświetlane w postaci tabelki \emph{(tj. miniaturka zdjęcia, nazwa aukcji, rodzaj aukcji oraz ceny)}. Nazwa aukcji powinna być odsyłaczem, który po kliknięciu przekieruje na podstrone przypisaną do aukcji.
+	
+	\subsection{Backlog Item 15}
+	\paragraph{Tytuł zadania:} Wiadomość informacyjna
+	\paragraph{Opis zadania:} Wyświetlenie wiadomości informacyjnej dla niezalogowanych użytkowników;
+	\paragraph{Priorytet:} Niski
+	\paragraph{Definition of Done:} Należy stworzyć box, który będzie umieszczony na stronie głównej (zaraz pod paskiem nawigacji). Box powinien być widoczny tylko dla osób niezalogowanych oraz tylko na stronie głównej - po zalogowaniu całkowicie znika. Należy umieścić w nim wiadomość informacyjną odnośnie serwisu (co to za witryna) oraz powinno zawrzeć się odnośniki do zarejestrowania nowego konta oraz zalogowania.
 	
 	\subsection{Backlog Item 13}
 	\paragraph{Tytuł zadania:} Kupowanie przedmiotu
