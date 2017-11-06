@@ -220,6 +220,7 @@
 	\begin{itemize}
 		\item \textbf{id} $\to$ [typ - \verb|INT|, \verb|AUTO_INCREMENT|];
 		\item \textbf{name} $\to$ [typ - \verb|VARCHAR(128)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{category} $\to$ [typ - \verb|INT|, relacja z kolumną id z tabeli categories];
 		\item \textbf{buy\_prize} $\to$ [typ - \verb|VARCHAR(16)|, kodowanie - \verb|UTF8_GENERAL_CI|];
 		\item \textbf{bidding\_prize} $\to$ [typ - \verb|VARCHAR(16)|, kodowanie - \verb|UTF8_GENERAL_CI|];
 		\item \textbf{description} $\to$ [typ - \verb|VARCHAR(512)|, kodowanie - \verb|UTF8_GENERAL_CI|];
@@ -247,17 +248,14 @@
 		\item \textbf{readed} $\to$ [typ - \verb|INT|];
 	\end{itemize} 
 	
-	
 	\subsection{Backlog Item 2}
 	\paragraph{Tytuł zadania:} Rejestracja
 	\paragraph{Opis zadania:} Możliwość założenia nowego konta;
 	\paragraph{Priorytet:} Wysoki
 	\paragraph{Definition of Done:} Każda osoba powinna mieć możliwość założenia swojego indywidualnego konta. Należy stworzyć formularz z podstawowymi danymi (\emph{tj. login, hasło, imię, nazwisko, e-mail, miejscowość, numer telefonu, numer konta bankowego}). Wpisane przez użytkownika dane muszą być pobierane metodą \emph{POST}. Finalnym efektem rejestracji jest wysłanie zapytania do bazy danych, który utworzy nowy rekord w tabeli \emph{users} z danymi użytkownika.
 	
-
-	
 	\subsection{Backlog Item 3}
-	\paragraph{Tytuł zadania:} Zabezpieczenia
+	\paragraph{Tytuł zadania:} Zabezpieczenie hasła
 	\paragraph{Opis zadania:} Wymuszenie od użytkownika wprowadzenia danych spełniających określone kryteria;
 	\paragraph{Priorytet:} Niski
 	\paragraph{Definition of Done:} Użytkownik tworzący nowe konto musi podać hasło składające się z minimum 8 znaków w tym:
@@ -267,7 +265,7 @@
 		\item cyfry od 0 do 9;
 		\item znaki niealfabetyczne (np. \verb|!, @, #, &|);
 	\end{itemize}
-	Hasło, które będzie podawał użytkownik rejestrując lub logują się na swoje konto powinno być niewidoczne dla osób postronnych.
+	Należy stworzyć skrypt używający \emph{wyrażenia regularne}, które w łatwy sposób mogą sprawdzić poprawność hasła z wyżej ustalonymi zasadami. Hasło, które będzie podawał użytkownik rejestrując lub logując się na swoje konto powinno być niewidoczne dla osób postronnych (wykropkowane).
 
 	\subsection{Backlog Item 4}
 	\paragraph{Tytuł zadania:} Weryfikowanie danych
@@ -282,6 +280,7 @@
 		\item numer telefonu - powinna składać się z 9 cyfr.
 		\item konto bankowe - powinno składać się z 26 cyfr.	
 	\end{itemize}
+	Gdy użytkownik nie zastosuje się do wyżej wymienionych zasad, należy wysłać do niego w postaci \emph{JavaScript Popup Alert box}, wiadomość zwrotną podającą, w którym miejscu popełnił błąd oraz jak poprawnie wypełnić input formularza.
 	
 	\subsection{Backlog Item 5}
 	\paragraph{Tytuł zadania:} Logowanie
@@ -289,21 +288,29 @@
 	\paragraph{Priorytet:} Wysoki
 	\paragraph{Definition of Done:} Stworzenie formularza logowania (tj. login oraz hasło) pobierające owe dane, następnie w postaci zapytania MySQL musi sprawdzać czy istnieją dane w bazie danych oraz czy pasują do jednego użytkownika. Należy zaimplementować wiadomość zwrotną gdy użytkownik wpisał złe dane (nie ma takiego rekordu w bazie danych bądź hasło nie pasuje do loginu). Po udanej operacji (logowanie powiodło się) należy stworzyć użytkownikowi sesję oraz przekierować go na stronę główną serwisu.
 	
-	
-	
 	\subsection{Backlog Item 6}
+	\paragraph{Tytuł zadania:} Pasek nawigacji
+	\paragraph{Opis zadania:} Utworzenie paska nawigacji umieszczonego w górnej części ekranu;
+	\paragraph{Priorytet:} Wysoki
+	\paragraph{Definition of Done:} Należy utworzyć pasek nawigacji, który będzie umiejscowiony na górze ekranu przeglądarki. Pozycjonowanie paska należy ustawić jako \emph{fixed}, aby w przypadku długiej strony ,,przykleił'' się do ekranu i podążał za scrollowaną stroną. Szerokość paska powinna być uzależniona od szerokości ekranu, na którym będzie odwiedzany serwis, zaś wysokość powinna być ustawiona na \emph{75px}.
+	
+	\subsection{Backlog Item 7}
 	\paragraph{Tytuł zadania:} Zmiana danych
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi zmiany swoich podstawowych danych;
 	\paragraph{Priorytet:} Średni
-	\paragraph{Definition of Done:} Każda osoba posiadająca swoje konto powinna mieć możliwość zmiany swoich podstawowych danych na nowe (tj. imię, nazwisko, e-mail, miejscowość, numer telefonu, numer konta bankowego, hasło). Zmienione dane powinny nadpisać się w bazie danych.
+	\paragraph{Definition of Done:} Każda osoba posiadająca swoje konto powinna mieć możliwość zmiany swoich podstawowych danych na nowe (tj. imię, nazwisko, e-mail, miejscowość, numer telefonu, numer konta bankowego, hasło). Należy stworzyć formularz z wcześniej wymienionymi danymi oraz jako domyślne \emph{value} kolejnych inputów formularza powinny być przypisane dane pobrane z bazy danych. Obowiązkowo należy zaimplementować przycisk \emph{submit}, po kliknięciu którego zostaną pobrane dane z formularza metodą \emph{POST} oraz wysłane do bazy danych w postaci zapytania MySQL. Wysłane dane muszą podmieniać już istniejące.
 	
-	
-	\subsection{Backlog Item 7}
+	\subsection{Backlog Item 8}
 	\paragraph{Tytuł zadania:} Wyszukiwarka
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi wyszukiwania interesujących przedmiotów;
 	\paragraph{Priorytet:} Średni
-	\paragraph{Definition of Done:} Każda osoba przeglądająca serwis aukcyjny powinna mieć możliwość wpisania hasła, które umożliwi mu wyszukanie interesującego go przedmiotu.
+	\paragraph{Definition of Done:} Każda osoba (zalogowana lub niezalogowana) może używać wyszukiwarki. Wyszukiwarke w postaci formularza należy umieścić na pasku nawigacji, który znajduje się na górze ekranu. Wpisane hasło w input formularza zwrócone przez funkcję \emph{htmlspecialchars()} należy umieścić w zapytaniu MySQL w poszukiwaniu przedmiotów. Zapytanie należy zaprojektować tak, aby wyszukiwał każdy przedmiot, w którym zawiera się wpisane przez użytkownika hasło \emph{(np. dom, domek, domeczek, domuś itp.)}.
 	
+	\subsection{Backlog Item 9}
+	\paragraph{Tytuł zadania:} Panel konta
+	\paragraph{Opis zadania:} Zgrupowanie w jedno miejsce podstawowych akcji użytkownika;
+	\paragraph{Priorytet:} Średni
+	\paragraph{Definition of Done:} Panel należy podzielić na dwie grupy - dla osób zalogowanych oraz dla osób niezalogowanych. Oba panele powinny być umiejscowione na pasku nawigacji na górze ekranu. Panel dla zalogowanego użytkownika powinien być w postaci avataru użytkownika, w który można kliknąć a następnie rozwija się menu z podstawowymi akcjami \emph{(tj. edytuj dane, moje aukcje, historia zakupów, wyloguj)}. Panel dla osoby niezalogowanej powinien być w postaci napisu ,,Moje konto'', które również rozwija się po kliknięciu w napis, z którego można wybrać dwie akcję \emph{(tj. zarejestruj się, zaloguj się)}. Po kliknięciu, w któryś z odnośników z rozwijanych menu każdy powinien być przekierowywany na konkretne podstrony serwisu.
 	
 	\subsection{Backlog Item 8}
 	\paragraph{Tytuł zadania:} Dodanie aukcji
