@@ -226,6 +226,7 @@
 		\item \textbf{description} $\to$ [typ - \verb|VARCHAR(512)|, kodowanie - \verb|UTF8_GENERAL_CI|];
 		\item \textbf{image} $\to$ [typ - \verb|VARCHAR(256)|, kodowanie - \verb|UTF8_GENERAL_CI|];
 		\item \textbf{last\_bidder} $\to$ [typ - \verb|INT|, relacja z kolumną id z tabeli users];
+		\item \textbf{buyer} $\to$ [typ - \verb|INT|, relacja z kolumną id z tabeli users];
 	\end{itemize}
 
 	\vspace{0.5cm}
@@ -348,59 +349,51 @@
 	\paragraph{Priorytet:} Niski
 	\paragraph{Definition of Done:} Należy stworzyć box, który będzie umieszczony na stronie głównej (zaraz pod paskiem nawigacji). Box powinien być widoczny tylko dla osób niezalogowanych oraz tylko na stronie głównej - po zalogowaniu całkowicie znika. Należy umieścić w nim wiadomość informacyjną odnośnie serwisu (co to za witryna) oraz powinno zawrzeć się odnośniki do zarejestrowania nowego konta oraz zalogowania.
 	
-	\subsection{Backlog Item 13}
+	\subsection{Backlog Item 16}
 	\paragraph{Tytuł zadania:} Kupowanie przedmiotu
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi zakupu;
 	\paragraph{Priorytet:} Średni
-	\paragraph{Definition of Done:} Każda osoba posiadająca konto powinna mieć możliwość zakupu interesującego przedmiotu poprzez opcję KUP TERAZ lub wygranie licytacji.
+	\paragraph{Definition of Done:} Osoba zalogowana powinna mieć możliwość zakupu interesującego przedmiotu poprzez opcję KUP TERAZ lub wygranie licytacji. Kiedy użytkownik zakupi przedmiot poprzez KUP TERAZ automatycznie dana aukcja powinna się zakończyć (wysyłane jest zapytanie do bazy danych edytujące rekord odpowiadający aukcji, do którego dopisywana jest wartość \emph{id} osoby kupującej do kolumny \emph{buyer}). Jeśli wartość jest 0, to znaczy, że nikt przedmiotu nie kupił. W przypadku wybrania formy aukcji jako licytacja osoba zalogowana może wpisać w formularzu cenę, którą jest w stanie zapłacić za przedmiot pod warunkiem, że jest ona większa od ostatniej licytacji. Formularz pobrany metodą \emph{POST}. Zapytanie z nową zlicytowaną ceną nadpisuje się w bazie danych.
 	
-	\subsection{Backlog Item 14}
+	\subsection{Backlog Item 17}
 	\paragraph{Tytuł zadania:} Informacja zwrotna
 	\paragraph{Opis zadania:} Przesyłanie danych osób biorących udział w transakcji;
 	\paragraph{Priorytet:} Wysoki
-	\paragraph{Definition of Done:} Po sfinalizowaniu każdej transakcji powinny automatycznie przesyłać się dane:
+	\paragraph{Definition of Done:} Po sfinalizowaniu każdej transakcji powinny automatycznie przesyłać się dane, które będą pobierane z bazy danych:
 	\begin{itemize}
 		\item od kupującego do sprzedającego - imię, nazwisko, adres, numer telefonu;
 		\item od sprzedającego do kupującego - imię, nazwisko, numer konta bankowego, numer transakcji, numer telefonu;
 	\end{itemize}.
 	
-	\subsection{Backlog Item 15}
-	\paragraph{Tytuł zadania:} Historia
+	\subsection{Backlog Item 18}
+	\paragraph{Tytuł zadania:} Historia zakupów
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi przeglądania swoich starych transakcji;
 	\paragraph{Priorytet:} Niski
-	\paragraph{Definition of Done:} Każda osoba posiadająca swoje konto powinna mieć możliwość przeglądania swoich wszystkich wcześniejszych transakcji w tym oznaczonych jako kupione, sprzedane lub wygasłe.
+	\paragraph{Definition of Done:} Każda osoba posiadająca swoje konto powinna mieć możliwość przeglądania swoich wszystkich wcześniejszych transakcji. Stworzyć podstronę przypisaną do każdego użytkownika serwisu, na którym będą wypisywane w postaci tabeli \emph{(tj. miniaturka przedmiotu, nazwa, cena zakupu oraz jedna z kategorii [przedmiot: kupiony / sprzedany, aukcja wygasła])}. Inny użytkownik nie może podglądać historii zakupów innego użytkownika - ma dostęp tylko do swojej podstrony.
 	
-	
-	\subsection{Backlog Item 16}
+	\subsection{Backlog Item 19}
 	\paragraph{Tytuł zadania:} Wiadomości
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi wysyłania i odbierania prywatnych wiadomości od innych użytkowników;
 	\paragraph{Priorytet:} Średni
-	\paragraph{Definition of Done:} Każda osoba posiadająca konto powinna mieć możlwiość wysyłania prywatnych wiadomości do innych użytkowników serwisu oraz również odbierania.
+	\paragraph{Definition of Done:} Każda osoba posiadająca konto powinna mieć możlwiość wysyłania prywatnych wiadomości do innych użytkowników serwisu oraz również odbierania. Należy stworzyć formularz pozwalający wysyłanie wiadomości \emph{(tj. temat wiadomości, do kogo ma być wysłana wiadomość oraz pole wiadomości)}. Formularz powinien być pobierany metodą \emph{POST}. Pobrane dane powinny być umieszczone w bazie danych w tabeli \emph{messages}. Domyślnie argument \emph{readed} powinien być ustawiany na 0. W przypadku gdy \emph{readed} ma wartość 0 wyświetlany jest na stronie głównej komunikat w postaci boxa pod paskiem nawigacji, informujący o nowej nieprzeczytanej prywatnej wiadomości. Jeśli użytkownik wejdzie w wiadomość automatycznie wartość argumentu \emph{readed} zmienia się na 1, zapisuje się w bazie - przez to nie będzie wyświetlane powiadomienie o nieprzeczytanej wiadomości. Należy stworzyć podstronę, w której będą wyświetlać się wszystkie prywatne wiadomości użytkownika w postaci odsyłacza, który po kliknięciu będzie przekierowywał na kolejną podstronę przypisaną do konkretnej wiadomości. Na podstronie musi znajdować się podgląd wiadomości \emph{(tj. od kogo została przysłana, temat wiadomości oraz cała wiadomość)}. Dane wczytane bezpośrednio z bazy danych.
 	
-	\subsection{Backlog Item 17}
+	\subsection{Backlog Item 20}
 	\paragraph{Tytuł zadania:} Komentarze
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi komentowania konkretnych aukcji;
 	\paragraph{Priorytet:} Niski
-	\paragraph{Definition of Done:} Każda osoba zalogowana na swoje konto powinna mieć możliwość skorzystania z przycisku "Komentarz", który znajduje się przy przeglądanej aukcji i napisania swojego komentarza dot. ów aukcji w polu tekstowym, które powinno się pojawić po kliknięciu przycisku.
+	\paragraph{Definition of Done:} Każda osoba zalogowana na swoje konto powinna mieć możliwość skorzystania z opcji komentowania aukcji. Należy stworzyć formularz tylko dla zalogowanych osób pod aukcją \emph{(tj. wiadomość)}. Dane pobierane poprzez metodę \emph{POST}. Dane powinny być wysyłane do bazy danych wraz z \emph{id} konta, z którego pisany jest komentarz. Pod formularzem należy stworzyć podgląd komentarzy do aukcji. W przypadku gdy aukcja nie posiada żadnych komentarzy należy wyświetlić wiadomość informującą o tym stanie. W przeciwnym wypadku należy wyświetlić w postaci tabeli komentarz \emph{(tj. login użytkownika, który napisał komentarz, avatar oraz wiadomość komentarza)}. Osoby niezalogowane pod aukcją widzą tylko komentarze, formularz jest dla nich całkowicie niewidoczny.
 	
-	
-	\subsection{Backlog Item 18}
+	\subsection{Backlog Item 21}
 	\paragraph{Tytuł zadania:} Ulubione
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi zapisania aukcji;
 	\paragraph{Priorytet:} Niski
 	\paragraph{Definition of Done:} Każda osoba zalogowana na swoje konto powinna mieć możliwość przypisania linku interesującej go aukcji do odpowiedniej zakładki w swoim profilu.
 	
-	\subsection{Backlog Item 19}
+	\subsection{Backlog Item 22}
 	\paragraph{Tytuł zadania:} Licznik
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi sprawdzenia ilości odsłon aukcji;
 	\paragraph{Priorytet:} Niski
-	\paragraph{Definition of Done:} Na każdej stronie aukcji w dogodnym miejscu pod ogłoszeniem powinien znajdować się licznik (Wyświetleń:"ilość wyświetleń), który zapisze w sobie inf. ile razy ktoś wyświetlił ów ogłoszenie.
-	
-
-
-
-	
-
+	\paragraph{Definition of Done:} Na każdej stronie aukcji w dogodnym miejscu pod ogłoszeniem powinien znajdować się licznik odwiedzin danej aukcji. Licznik nalicza się gdy osoba wejdzie na podstronę aukcji. Dana powinna być zapisywana i wczytywana z bazy danych.
 	
 	\section{Sprint 1}
 	\subsection{Cel} Celem pierwszego Sprintu jest umożliwienie użytkownikowi założenia konta dzięki któremu będzie on mógł uzyskać dostęp do wszystkich opcji serwisu i korzystania z niego. Aby to mogło się odbyć wcześniej zostanie stworzona baza danych w której będą zapisywane wszystkie dane.
