@@ -127,6 +127,9 @@
 	
 	\subsection{User story 17}
 	Jako użytkownik chciałbym mieć możliwość zakupu produktu natychmiast (opcja kup teraz), bądź licytowania go (opcja licytuj), żebym mógł go kupić.
+	
+	\subsection{User story 18}
+	Jako użytkownik chciałbym mieć możliwość posiadania paska nawigacyjnego w którym zostanie umiejscowiona wyszukiwarka, oraz panel konta użytkownika.
 		
 	\section{Harmonogram}
 	
@@ -206,6 +209,7 @@
 		\item \textbf{phone} $\to$ [typ - \verb|VARCHAR(9)|, kodowanie - \verb|UTF8_GENERAL_CI|];
 		\item \textbf{place} $\to$ [typ - \verb|VARCHAR(128)|, kodowanie - \verb|UTF8_GENERAL_CI|];
 		\item \textbf{bank} $\to$ [typ - \verb|VARCHAR(26)|, kodowanie - \verb|UTF8_GENERAL_CI|];
+		\item \textbf{avatar} $\to$ [typ - \verb|VARCHAR(128)|, kodowanie - \verb|UTF8_GENERAL_CI|];
 	\end{itemize}
 
 	\vspace{0.5cm}
@@ -253,7 +257,7 @@
 	\paragraph{Tytuł zadania:} Rejestracja
 	\paragraph{Opis zadania:} Możliwość założenia nowego konta;
 	\paragraph{Priorytet:} Wysoki
-	\paragraph{Definition of Done:} Każda osoba powinna mieć możliwość założenia swojego indywidualnego konta. Należy stworzyć formularz z podstawowymi danymi (\emph{tj. login, hasło, imię, nazwisko, e-mail, miejscowość, numer telefonu, numer konta bankowego}). Wpisane przez użytkownika dane muszą być pobierane metodą \emph{POST}. Finalnym efektem rejestracji jest wysłanie zapytania do bazy danych, który utworzy nowy rekord w tabeli \emph{users} z danymi użytkownika.
+	\paragraph{Definition of Done:} Każda osoba powinna mieć możliwość założenia swojego indywidualnego konta. Należy stworzyć formularz z podstawowymi danymi (\emph{tj. login, hasło, imię, nazwisko, e-mail, miejscowość, numer telefonu, numer konta bankowego oraz avatar}). Wpisane przez użytkownika dane muszą być pobierane metodą \emph{POST}. Finalnym efektem rejestracji jest wysłanie zapytania do bazy danych, który utworzy nowy rekord w tabeli \emph{users} z danymi użytkownika.
 	
 	\subsection{Backlog Item 3}
 	\paragraph{Tytuł zadania:} Zabezpieczenie hasła
@@ -299,7 +303,7 @@
 	\paragraph{Tytuł zadania:} Zmiana danych
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi zmiany swoich podstawowych danych;
 	\paragraph{Priorytet:} Średni
-	\paragraph{Definition of Done:} Każda osoba posiadająca swoje konto powinna mieć możliwość zmiany swoich podstawowych danych na nowe (tj. imię, nazwisko, e-mail, miejscowość, numer telefonu, numer konta bankowego, hasło). Należy stworzyć formularz z wcześniej wymienionymi danymi oraz jako domyślne \emph{value} kolejnych inputów formularza powinny być przypisane dane pobrane z bazy danych. Obowiązkowo należy zaimplementować przycisk \emph{submit}, po kliknięciu którego zostaną pobrane dane z formularza metodą \emph{POST} oraz wysłane do bazy danych w postaci zapytania MySQL. Wysłane dane muszą podmieniać już istniejące.
+	\paragraph{Definition of Done:} Każda osoba posiadająca swoje konto powinna mieć możliwość zmiany swoich podstawowych danych na nowe (tj. imię, nazwisko, e-mail, miejscowość, numer telefonu, numer konta bankowego, hasło oraz avatar). Należy stworzyć formularz z wcześniej wymienionymi danymi oraz jako domyślne \emph{value} kolejnych inputów formularza powinny być przypisane dane pobrane z bazy danych. Obowiązkowo należy zaimplementować przycisk \emph{submit}, po kliknięciu którego zostaną pobrane dane z formularza metodą \emph{POST} oraz wysłane do bazy danych w postaci zapytania MySQL. Wysłane dane muszą podmieniać już istniejące.
 	
 	\subsection{Backlog Item 8}
 	\paragraph{Tytuł zadania:} Wyszukiwarka
@@ -394,6 +398,12 @@
 	\paragraph{Opis zadania:} Umożliwienie użytkownikowi sprawdzenia ilości odsłon aukcji;
 	\paragraph{Priorytet:} Niski
 	\paragraph{Definition of Done:} Na każdej stronie aukcji w dogodnym miejscu pod ogłoszeniem powinien znajdować się licznik odwiedzin danej aukcji. Licznik nalicza się gdy osoba wejdzie na podstronę aukcji. Dana powinna być zapisywana i wczytywana z bazy danych.
+	
+	\subsection{Backlog Item 23}
+	\paragraph{Tytuł zadania:} Kategorie
+	\paragraph{Opis zadania:} Umożliwienie użytkownikowi wyszukiwania aukcji po kategoriach;
+	\paragraph{Priorytet:} Niski
+	\paragraph{Definition of Done:} Każda osoba odwiedzająca serwis powinna mieć dostępny pasek boczny z dostępnymi kategoriami. Kategorie powinny być wczytywane z bazy danych z tabeli \emph{categories}, w postaci odsyłacza który umożliwi przekierowanie osoby na podstronę wybranej kategorii, gdzie zostaną wyświetlone wszystkie aukcje należące do danej kategorii. 
 	
 	\section{Sprint 1}
 	\subsection{Cel} Celem pierwszego Sprintu jest umożliwienie użytkownikowi założenia konta dzięki któremu będzie on mógł uzyskać dostęp do wszystkich opcji serwisu i korzystania z niego. Aby to mogło się odbyć wcześniej zostanie stworzona baza danych w której będą zapisywane wszystkie dane.
