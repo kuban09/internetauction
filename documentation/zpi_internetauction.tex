@@ -437,32 +437,65 @@
 	Kod programu:
 	
 	\begin{verbatim}
-	if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
-	{
-			header("Refresh:0; url=index.php");
-			echo "<script language='javascript'>alert('Jesteś już zalogowany!');</script>";
-			return 0;
-	}
+	if($_GET['action'] === "login")
+    {
+        if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
+        {
+            header("Refresh:0; url=index.php");
+            echo "<script language='javascript'>alert('Jesteś już zalogowany!');</script>";
+            return 0;
+        }
+ 
+        if(isset($_POST['loginSubmit']))
+        {
+            $username = $_POST['loginName'];
+            $password = $_POST['loginPassword'];
+ 
+            $query = mysql_query("SELECT * FROM users WHERE username LIKE '".$username."' AND password LIKE '".$password."'");
+            //$userLogged = mysql_fetch_array($query);
+           
+            if(mysql_num_rows($query) > 0)
+            {
+                $_SESSION['password'] = $password;
+                $_SESSION['username'] = $username;
+                header("Refresh:0; url=index.php");
+            }
+            else
+            {
+                header("Refresh:0; url=index.php?action=login");
+                echo "<script language='javascript'>alert('Podałeś błędne dane!');</script>";
+            }
+        }
+ 
+        $index = '
+            <div class="container" style="margin-top: 20px;">
+                <div class="row">
+                    <div class="backgroundBox">
+                        <form class="form-horizontal" action="" method="post">
+                            <div class="form-group">
+                                <label for="userName" class="col-sm-2 control-label">Nazwa użytkownika</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control input-lg" id="userName" name="loginName" placeholder="Wpisz tutaj swoją nazwę użytkownika" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="userPassword" class="col-sm-2 control-label">Hasło</label>
+                                <div class="col-sm-10">
+                                    <input type="password" class="form-control input-lg" id="userPassword" name="loginPassword" placeholder="Wpisz tutaj swoje hasło" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button type="submit" name="loginSubmit" class="btn btn-default input-lg"><span style="font-size: 20px;">Zaloguj!</span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        ';
+    }
 	
-	if(isset($_POST['loginSubmit']))
-	{
-			$username = $_POST['loginName'];
-			$password = $_POST['loginPassword'];
-	
-	$query = mysql_query("SELECT * FROM users WHERE username LIKE '".$username."' AND password LIKE '".$password."'");
-	
-			if(mysql_num_rows($query) > 0)
-			{
-					$_SESSION['password'] = $password;
-					$_SESSION['username'] = $username;
-					header("Refresh:0; url=index.php");
-			}
-			else
-			{
-					header("Refresh:0; url=index.php?action=login");
-					echo "<script language='javascript'>alert('Podałeś błędne dane!');</script>";
-			}
-	}
 	\end{verbatim}
 	
 	\paragraph{Tytuł zadania.} <<Tytuł>>.
