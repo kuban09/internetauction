@@ -428,12 +428,42 @@
 	
 	\subsection{Realizacja}
 	
-	\paragraph{Tytuł zadania.} <<Tytuł>>.
-	\subparagraph{Wykonawca.} <<Wykonawca>>.
-	\subparagraph{Realizacja.} <<Sprawozdanie z realizacji zadania (w tym ocena zgodności z estymatą). Kod programu (środowisko \texttt{verbatim}): \begin{verbatim}
-	for (i=1; i<10; i++)
-	...
-	\end{verbatim}>>.
+	\paragraph{Tytuł zadania.} Logowanie
+	\subparagraph{Wykonawca.} Damian Klimek
+	\subparagraph{Realizacja.} Zadanie polegało na:
+	
+	
+	
+	Kod programu:
+	
+	\begin{verbatim}
+	if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
+	{
+			header("Refresh:0; url=index.php");
+			echo "<script language='javascript'>alert('Jesteś już zalogowany!');</script>";
+			return 0;
+	}
+	
+	if(isset($_POST['loginSubmit']))
+	{
+			$username = $_POST['loginName'];
+			$password = $_POST['loginPassword'];
+	
+	$query = mysql_query("SELECT * FROM users WHERE username LIKE '".$username."' AND password LIKE '".$password."'");
+	
+			if(mysql_num_rows($query) > 0)
+			{
+					$_SESSION['password'] = $password;
+					$_SESSION['username'] = $username;
+					header("Refresh:0; url=index.php");
+			}
+			else
+			{
+					header("Refresh:0; url=index.php?action=login");
+					echo "<script language='javascript'>alert('Podałeś błędne dane!');</script>";
+			}
+	}
+	\end{verbatim}
 	
 	\paragraph{Tytuł zadania.} <<Tytuł>>.
 	\subparagraph{Wykonawca.} <<Wykonawca>>.
