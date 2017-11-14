@@ -3,6 +3,7 @@
 \usepackage[cp1250]{inputenc}
 \usepackage{url}
 \usepackage{hyperref}
+\usepackage{graphicx}
 
 \title{\vspace{3cm} \bf{\Huge Internetowy\\ \vspace{0.2cm} Serwis\\ \vspace{0.4cm} Aukcyjny}}
 \author{{\em Jakub Niewczas, Damian Klimek, Tomasz Zabrzewski, Łukasz Myszkowski}}
@@ -436,9 +437,9 @@
 	
 	\subsection{Realizacja}
 	
-	\paragraph{Tytuł zadania.} Logowanie;
-	\subparagraph{Wykonawca.} Damian Klimek;
-	\subparagraph{Realizacja.} Zadanie polegało na:
+	\paragraph{Tytuł zadania.} Logowanie 
+	\subparagraph{Wykonawca.} Damian Klimek 
+	\subparagraph{Realizacja.} Został stworzony formularz logowania który wymaga od użytkownika podania danych \emph{(tj. login oraz hasło)}, następnie pobiera dane z formularza metodą \emph{POST} i wartości przypisuje do zmiennych, które później sprawdzane są w bazie danych za pomocą zapytania MySQL. Jeśli nie istnieją takie dane to użytkownik otrzymuje informacje zwrotną w postaci wyskakującego okienka, że konto nie istnieje, a w przeciwnym razie zostaje utworzona sesja oraz zostaje zalogowany.
 	
 	
 	
@@ -536,7 +537,7 @@
 		PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Aukcje' AUTO_INCREMENT=1 ;
 	\end{verbatim}
-	\\
+	
 	Struktura tabeli \emph{categories}:
 	
 	\begin{figure}[h]
@@ -556,7 +557,7 @@
 		PRIMARY KEY (`id`)
 	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Kategorie aukcji' AUTO_INCREMENT=1 ;
 	\end{verbatim}
-	\\
+	
 	Struktura tabeli \emph{comments}:
 	
 	\begin{figure}[h]
@@ -578,7 +579,7 @@
 		PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Komentarze do aukcji' AUTO_INCREMENT=1 ;
 	\end{verbatim}
-	\\
+	
 	Struktura tabeli \emph{messages}:
 	
 	\begin{figure}[h]
@@ -598,7 +599,7 @@
 		PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Prywatne wiadomości' AUTO_INCREMENT=1 ;
 	\end{verbatim}
-	\\
+	
 	Struktura tabeli \emph{users}:
 	
 	\begin{figure}[h]
