@@ -436,8 +436,8 @@
 	
 	\subsection{Realizacja}
 	
-	\paragraph{Tytuł zadania.} Logowanie
-	\subparagraph{Wykonawca.} Damian Klimek
+	\paragraph{Tytuł zadania.} Logowanie;
+	\subparagraph{Wykonawca.} Damian Klimek;
 	\subparagraph{Realizacja.} Zadanie polegało na:
 	
 	
@@ -506,15 +506,15 @@
 	
 	\end{verbatim}
 	
-	\paragraph{Tytuł zadania.} Baza danych.
-	\subparagraph{Wykonawca.} Kuba Niewczas.
-	\subparagraph{Realizacja.} Baza danych została stworzona w środowisku \emph{MySQL}. Struktura bazy danych tworzona graficznie za pomocą \emph{PHPMyAdmin}. Wszystkie dane będą umieszczane w bazie o nazwie \emph{zpi\_project}, domyślne porównywanie napisów (kodowanie) zostało ustawione na \verb|UTF8_GENERAL_CI|. Baza danych zawiera następujące tabele \emph{(tj. auctions, categories, comments, messages, users)}.\\
+	\paragraph{Tytuł zadania.} Baza danych;
+	\subparagraph{Wykonawca.} Kuba Niewczas;
+	\subparagraph{Realizacja.} Baza danych została stworzona w środowisku \emph{MySQL}. Struktura bazy danych tworzona graficznie za pomocą \emph{PHPMyAdmin}. Wszystkie dane będą umieszczane w bazie o nazwie \emph{zpi\_project}, domyślne porównywanie napisów (kodowanie) zostało ustawione na \verb|UTF8_GENERAL_CI|. Baza danych zawiera następujące tabele \emph{(tj. auctions, categories, comments, messages, users)}. Wykonując to zadanie nie napotkałem żadnych problemów lecz było dość czasochłonne ponieważ trzeba było przemyśleć całą strukturę działania serwisu.\\
 	
 	Struktura tabeli \emph{auctions}:
 	
 	\begin{figure}[h]
 		\centering
-		\includegraphics[width=15cm]{images/auctions.jpg}
+		\includegraphics[width=12cm]{images/auctions.jpg}
 		\caption{Tabela auctions}
 	\end{figure}
 	
@@ -536,8 +536,14 @@
 		PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Aukcje' AUTO_INCREMENT=1 ;
 	\end{verbatim}
+	\\
+	Struktura tabeli \emph{categories}:
 	
-	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=12cm]{images/categories.jpg}
+		\caption{Tabela categories}
+	\end{figure}
 	
 	\begin{verbatim}
 	--
@@ -550,8 +556,14 @@
 		PRIMARY KEY (`id`)
 	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Kategorie aukcji' AUTO_INCREMENT=1 ;
 	\end{verbatim}
+	\\
+	Struktura tabeli \emph{comments}:
 	
-	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=12cm]{images/comments.jpg}
+		\caption{Tabela comments}
+	\end{figure}
 	
 	\begin{verbatim}
 	--
@@ -566,8 +578,14 @@
 		PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Komentarze do aukcji' AUTO_INCREMENT=1 ;
 	\end{verbatim}
+	\\
+	Struktura tabeli \emph{messages}:
 	
-	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=12cm]{images/messages.jpg}
+		\caption{Tabela messages}
+	\end{figure}
 	
 	\begin{verbatim}
 	CREATE TABLE IF NOT EXISTS `messages` (
@@ -580,8 +598,14 @@
 		PRIMARY KEY (`id`)
 	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Prywatne wiadomości' AUTO_INCREMENT=1 ;
 	\end{verbatim}
+	\\
+	Struktura tabeli \emph{users}:
 	
-	
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=12cm]{images/users.jpg}
+		\caption{Tabela users}
+	\end{figure}
 	
 	\begin{verbatim}
 	CREATE TABLE IF NOT EXISTS `users` (
@@ -599,9 +623,9 @@
 	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Konta użytkowników serwisu' AUTO_INCREMENT=1 ;
 	\end{verbatim}
 	
-	\paragraph{Tytuł zadania.} Rejestracja.
-	\subparagraph{Wykonawca.} Kuba Niewczas.
-	\subparagraph{Realizacja.} 
+	\paragraph{Tytuł zadania.} Rejestracja;
+	\subparagraph{Wykonawca.} Kuba Niewczas;
+	\subparagraph{Realizacja.} Tworząc skrypt rejestacji przypisałem pobrane dane z formularza metodą \emph{POST} do zmiennych. W postaci zapytania \emph{MySQL} dane zawarte w zmiennych będą dodawane do bazy danych do tabeli \emph{users}. Zadanie nie wymagało zbyt wielkiego poświęcenia czasu gdyż składa się tylko z paru operacji.
 	
 	\begin{verbatim}
 		else if($_GET['action'] === "register")
@@ -617,59 +641,9 @@
 			    $phone = $_POST['registerPhone'];
 			    $bank = $_POST['registerBank'];
 
-			    $query = mysql_query("SELECT NULL FROM users WHERE username LIKE '".$username."'");
-			    $query2 = mysql_query("SELECT NULL FROM users WHERE email LIKE '".$email."'");
-
-			    if(mysql_num_rows($query) > 0)
-			    {
-				echo "<script language='javascript'>alert('Taka nazwa użytkownika jest zajęta - wybierz inną!');</script>";
-			    }
-			    else if(mysql_num_rows($query2) > 0)
-			    {
-				echo "<script language='javascript'>alert('Taki adres e-mail jest już zarejestrowany - wybierz inny!');</script>";
-			    }
-			    else if(strlen($username) > 32 || strlen($username) < 3)
-			    {
-				echo "<script language='javascript'>alert('Nazwa użytkownika powinna zawierać 3 - 32 znaków!');</script>";
-			    }
-			    else if(strlen($password) > 32 || strlen($password) < 3)
-			    {
-				echo "<script language='javascript'>alert('Hasło powinno zawierać 3 - 32 znaków!');</script>";
-			    }
-			    else if(strlen($firstname) > 64 || strlen($firstname) < 3)
-			    {
-				echo "<script language='javascript'>alert('Imię powinno zawierać 3 - 64 znaków!');</script>";
-			    }
-			    else if(strlen($surname) > 64 || strlen($surname) < 3)
-			    {
-				echo "<script language='javascript'>alert('Nazwisko powinno zawierać 3 - 64 znaków!');</script>";
-			    }
-			    else if(strlen($place) > 128 || strlen($place) < 3)
-			    {
-				echo "<script language='javascript'>alert('Miejscowość powinna zawierać 3 - 128 znaków!');</script>";
-			    }
-			    else if(strlen($phone) != 9)
-			    {
-				echo "<script language='javascript'>alert('Numer telefonu składa się z 9 cyfr!');</script>";
-			    }
-			    else if(!is_numeric($phone))
-			    {
-				echo "<script language='javascript'>alert('Numer telefonu składa się z samych cyfr!');</script>";
-			    }
-			    else if(strlen($bank) != 26)
-			    {
-				echo "<script language='javascript'>alert('Numer konta bankowego składa się z 26 cyfr!');</script>";
-			    }
-			    else if(!is_numeric($bank))
-			    {
-				echo "<script language='javascript'>alert('Numer konta bankowego składa się z samych cyfr!');</script>";
-			    }
-			    else
-			    {
 				mysql_query("INSERT INTO users (username, password, firstname, surname, email, phone, place, bank) VALUES ('".$username."', '".$password."', '".$firstname."', '".$surname."', '".$email."', '".$phone."', '".$place."', '".$bank."')");
 				header("Refresh:0; url=index.php?action=login");
 				echo "<script language='javascript'>alert('Pomyślnie założyłeś konto - możesz teraz się zalogować!');</script>";
-			    }
 			}
 
 			$index = '
@@ -736,6 +710,74 @@
 			    </div>
 			';
 		}
+	\end{verbatim}
+	
+	\paragraph{Tytuł zadania.} Weryfikacja danych;
+	\subparagraph{Wykonawca.} Kuba Niewczas;
+	\subparagraph{Realizacja.} Do wcześniejszego zadania \textbf{Rejestracja} dodałem warunki, które muszą być spełnione aby użytkownik mógł założyć swoje konto. Użyłem zmiennych, które zostały zadeklarwane w bazowym zadaniu. Na początku wykonałem dwa zapytania do bazy danych aby sprawdzić czy wpisany \emph{login oraz hasło} istnieją już w bazie - jeśli tak to zwracana jest wiadomość, że konto na takie dane już istnieje. Lista warunków z backlogu została oskryptowana, w przypadku gdy skrypt ustali, że użytkownik popełnił błąd zostanie mu zwrócona informacja w postaci wyskakującego okienka \emph{JavaScriptu}.
+	
+	\begin{verbatim}
+		$query = mysql_query("SELECT NULL FROM users WHERE username LIKE '".$username."'");
+	    	$query2 = mysql_query("SELECT NULL FROM users WHERE email LIKE '".$email."'");
+
+		    if(mysql_num_rows($query) > 0)
+		    {
+			echo "<script language='javascript'>alert('Taka nazwa użytkownika jest zajęta - wybierz inną!');</script>";
+		    }
+		    else if(mysql_num_rows($query2) > 0)
+		    {
+			echo "<script language='javascript'>alert('Taki adres e-mail jest już zarejestrowany - wybierz inny!');</script>";
+		    }
+		    else if(strlen($username) > 32 || strlen($username) < 3)
+		    {
+			echo "<script language='javascript'>alert('Nazwa użytkownika powinna zawierać 3 - 32 znaków!');</script>";
+		    }
+		    else if(strlen($password) > 32 || strlen($password) < 3)
+		    {
+			echo "<script language='javascript'>alert('Hasło powinno zawierać 3 - 32 znaków!');</script>";
+		    }
+		    else if(strlen($firstname) > 64 || strlen($firstname) < 3)
+		    {
+			echo "<script language='javascript'>alert('Imię powinno zawierać 3 - 64 znaków!');</script>";
+		    }
+		    else if(preg_match('/[0-9]+/g', $firstname))
+		    {
+			echo "<script language='javascript'>alert('Imię powinno zawierać tylko litery!');</script>";
+		    }
+		    else if(strlen($surname) > 64 || strlen($surname) < 3)
+		    {
+			echo "<script language='javascript'>alert('Nazwisko powinno zawierać 3 - 64 znaków!');</script>";
+		    }
+		    else if(preg_match('/[0-9]+/g', $surname))
+		    {
+			echo "<script language='javascript'>alert('Nazwisko powinno zawierać tylko litery!');</script>";
+		    }
+		    else if(strlen($place) > 128 || strlen($place) < 3)
+		    {
+			echo "<script language='javascript'>alert('Miejscowość powinna zawierać 3 - 128 znaków!');</script>";
+		    }
+		    else if(strlen($phone) != 9)
+		    {
+			echo "<script language='javascript'>alert('Numer telefonu składa się z 9 cyfr!');</script>";
+		    }
+		    else if(!is_numeric($phone))
+		    {
+			echo "<script language='javascript'>alert('Numer telefonu składa się z samych cyfr!');</script>";
+		    }
+		    else if(strlen($bank) != 26)
+		    {
+			echo "<script language='javascript'>alert('Numer konta bankowego składa się z 26 cyfr!');</script>";
+		    }
+		    else if(!is_numeric($bank))
+		    {
+			echo "<script language='javascript'>alert('Numer konta bankowego składa się z samych cyfr!');</script>";
+		    }
+		    else
+		    {
+			mysql_query("INSERT INTO users (username, password, firstname, surname, email, phone, place, bank) VALUES ('".$username."', '".$password."', '".$firstname."', '".$surname."', '".$email."', '".$phone."', '".$place."', '".$bank."')");
+			header("Refresh:0; url=index.php?action=login");
+			echo "<script language='javascript'>alert('Pomyślnie założyłeś konto - możesz teraz się zalogować!');</script>";
+		    }
 	\end{verbatim}
 	
 	\subsection{Sprint Review/Demo}
