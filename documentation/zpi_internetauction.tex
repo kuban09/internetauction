@@ -782,12 +782,14 @@
 	\end{verbatim}
 	
 	\subsection{Sprint Review/Demo}
-	Tygodniowy sprint został zakończony powodzeniem. Wszystkie załozone zadania zostały zrealizowane w ustalonym czasie. Zadania które zostały zrealizowane to:
+	Sprint został zakończony powodzeniem. Wszystkie załozone zadania zostały zrealizowane w ustalonym czasie. Zostały zrealizowane następujące zadania:
+	
 \begin{itemize}
-\item Została założona baza danych oparta na Środowisku bazodanowym MySQL, baza danych ma umożliwiać użytkownikowi założenie konta oraz logowanie się na stronie i korzystanie ze wszystkich opcji serwisu.
-\item Został stworzony formularz do backlogu "Baza danych", który ma na celu rejestrację nowych użytkowników. Użytkownicy mają możliwość wprowadzenia podstawowych danych które spełniają wymagane kryteria i są konieczne do założenia konta na stronie serwisu. Wprowadzane dane są dodawane do tabeli użytkownicy (users).
-\item Został utworzony formularz który ma na celu umożliwienie logowania się na swoje konto. 
-\item Została stworzona weryfikacja danych do backlogu "Rejestracja" oraz "Logowanie": mająca na celu sprawdzić poprawność wpisanych danych przez użytkownika, w przypadku kiedy użytkownik nie wprowadzi poprawnych danych wyświetli się komunikat w postaci alertu podający w którym miejscu użytkownik popełnił, oraz jaki to był błąd.
+\item Została założona baza danych oparta na Środowisku bazodanowym MySQL, baza danych (która została uzupełniona w odpowiednie wiersze) umożliwia użytkownikowi założenie konta oraz logowanie się na stronie.
+\item Został utworzony formularz który ma na celu umożliwienie logowania się na swoje konto.
+
+\item Została stworzona weryfikacja danych wprowadzanych przy Rejestracji oraz Logowaniu: mająca na celu sprawdzić poprawność wpisanych danych przez użytkownika, w przypadku kiedy użytkownik nie wprowadzi poprawnych danych wyświetli się komunikat w postaci alertu podający w którym miejscu użytkownik popełnił jakiś błąd, oraz jaki to był błąd.
+
 \item Formularz sprawdza czy istnieje w bazie danych podany login oraz hasło i czy te dane są przypisane tylko do jednego użytkownika. Została zaimplementowana wiadomość zwrotna gdy użytkownik wpisze złe dane “nie ma takiego rekordu w bazie danych bądź hasło nie pasuje do loginu” jeśli dane są poprawne wyświetli się komunikat “logowanie powiodło się” i użytkownik zostanie przekierowany na główna stronę serwisu.
 
 \end{itemize}
