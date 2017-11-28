@@ -436,72 +436,6 @@
 	\subparagraph{Wykonawca.} Damian Klimek 
 	\subparagraph{Realizacja.} Został stworzony formularz logowania który wymaga od użytkownika podania danych \emph{(tj. login oraz hasło)}, następnie pobiera dane z formularza metodą \emph{POST} i wartości przypisuje do zmiennych, które później sprawdzane są w bazie danych za pomocą zapytania MySQL. Jeśli nie istnieją takie dane to użytkownik otrzymuje informacje zwrotną w postaci wyskakującego okienka, że konto nie istnieje, a w przeciwnym razie zostaje utworzona sesja oraz zostaje zalogowany.
 	
-	
-	
-	Kod programu:
-	
-	\begin{verbatim}
-	if($_GET['action'] === "login")
-    {
-        if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
-        {
-            header("Refresh:0; url=index.php");
-            echo "<script language='javascript'>alert('Jesteś już zalogowany!');</script>";
-            return 0;
-        }
- 
-        if(isset($_POST['loginSubmit']))
-        {
-            $username = $_POST['loginName'];
-            $password = $_POST['loginPassword'];
- 
-            $query = mysql_query("SELECT * FROM users WHERE username LIKE '".$username."' AND password LIKE '".$password."'");
-            //$userLogged = mysql_fetch_array($query);
-           
-            if(mysql_num_rows($query) > 0)
-            {
-                $_SESSION['password'] = $password;
-                $_SESSION['username'] = $username;
-                header("Refresh:0; url=index.php");
-            }
-            else
-            {
-                header("Refresh:0; url=index.php?action=login");
-                echo "<script language='javascript'>alert('Podałeś błędne dane!');</script>";
-            }
-        }
- 
-        $index = '
-            <div class="container" style="margin-top: 20px;">
-                <div class="row">
-                    <div class="backgroundBox">
-                        <form class="form-horizontal" action="" method="post">
-                            <div class="form-group">
-                                <label for="userName" class="col-sm-2 control-label">Nazwa użytkownika</label>
-                                <div class="col-sm-10">
-                                    <input type="text" class="form-control input-lg" id="userName" name="loginName" placeholder="Wpisz tutaj swoją nazwę użytkownika" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="userPassword" class="col-sm-2 control-label">Hasło</label>
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control input-lg" id="userPassword" name="loginPassword" placeholder="Wpisz tutaj swoje hasło" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <div class="col-sm-offset-2 col-sm-10">
-                                    <button type="submit" name="loginSubmit" class="btn btn-default input-lg"><span style="font-size: 20px;">Zaloguj!</span></button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        ';
-    }
-	
-	\end{verbatim}
-	
 	\paragraph{Tytuł zadania.} Baza danych;
 	\subparagraph{Wykonawca.} Kuba Niewczas;
 	\subparagraph{Realizacja.} Baza danych została stworzona w środowisku \emph{MySQL}. Struktura bazy danych tworzona graficznie za pomocą \emph{PHPMyAdmin}. Wszystkie dane będą umieszczane w bazie o nazwie \emph{zpi\_project}, domyślne porównywanie napisów (kodowanie) zostało ustawione na \verb|UTF8_GENERAL_CI|. Baza danych zawiera następujące tabele \emph{(tj. auctions, categories, comments, messages, users)}. Wykonując to zadanie nie napotkałem żadnych problemów lecz było dość czasochłonne ponieważ trzeba było przemyśleć całą strukturę działania serwisu.\\
@@ -514,25 +448,6 @@
 		\caption{Tabela auctions}
 	\end{figure}
 	
-	\begin{verbatim}
-	--
-	-- Struktura tabeli dla tabeli `auctions`
-	--
-	
-	CREATE TABLE IF NOT EXISTS `auctions` (
-		`id` int(11) NOT NULL AUTO_INCREMENT,
-		`name` varchar(128) NOT NULL,
-		`category` int(11) NOT NULL,
-		`buy_prize` varchar(16) NOT NULL,
-		`bidding_prize` varchar(16) NOT NULL,
-		`description` varchar(512) NOT NULL,
-		`image` varchar(256) NOT NULL,
-		`last_bidder` int(11) NOT NULL,
-		`buyer` int(11) NOT NULL,
-		PRIMARY KEY (`id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Aukcje' AUTO_INCREMENT=1 ;
-	\end{verbatim}
-	
 	Struktura tabeli \emph{categories}:
 	
 	\begin{figure}[h]
@@ -540,18 +455,6 @@
 		\includegraphics[width=12cm]{images/categories.jpg}
 		\caption{Tabela categories}
 	\end{figure}
-	
-	\begin{verbatim}
-	--
-	-- Struktura tabeli dla tabeli `categories`
-	--
-	
-	CREATE TABLE IF NOT EXISTS `categories` (
-		`id` int(11) NOT NULL AUTO_INCREMENT,
-		`name` varchar(64) NOT NULL,
-		PRIMARY KEY (`id`)
-	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Kategorie aukcji' AUTO_INCREMENT=1 ;
-	\end{verbatim}
 	
 	Struktura tabeli \emph{comments}:
 	
@@ -561,20 +464,6 @@
 		\caption{Tabela comments}
 	\end{figure}
 	
-	\begin{verbatim}
-	--
-	-- Struktura tabeli dla tabeli `comments`
-	--
-	
-	CREATE TABLE IF NOT EXISTS `comments` (
-		`id` int(11) NOT NULL AUTO_INCREMENT,
-		`message` varchar(512) NOT NULL,
-		`owner` int(11) NOT NULL,
-		`auction` int(11) NOT NULL,
-		PRIMARY KEY (`id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Komentarze do aukcji' AUTO_INCREMENT=1 ;
-	\end{verbatim}
-	
 	Struktura tabeli \emph{messages}:
 	
 	\begin{figure}[h]
@@ -582,18 +471,6 @@
 		\includegraphics[width=12cm]{images/messages.jpg}
 		\caption{Tabela messages}
 	\end{figure}
-	
-	\begin{verbatim}
-	CREATE TABLE IF NOT EXISTS `messages` (
-		`id` int(11) NOT NULL AUTO_INCREMENT,
-		`owner` int(11) NOT NULL,
-		`recipient` int(11) NOT NULL,
-		`title` varchar(128) NOT NULL,
-		`message` varchar(512) NOT NULL,
-		`readed` int(1) NOT NULL,
-		PRIMARY KEY (`id`)
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Prywatne wiadomości' AUTO_INCREMENT=1 ;
-	\end{verbatim}
 	
 	Struktura tabeli \emph{users}:
 	
@@ -603,178 +480,13 @@
 		\caption{Tabela users}
 	\end{figure}
 	
-	\begin{verbatim}
-	CREATE TABLE IF NOT EXISTS `users` (
-		`id` int(11) NOT NULL AUTO_INCREMENT,
-		`username` varchar(32) NOT NULL,
-		`password` varchar(32) NOT NULL,
-		`firstname` varchar(64) NOT NULL,
-		`surname` varchar(64) NOT NULL,
-		`email` varchar(64) NOT NULL,
-		`phone` varchar(9) NOT NULL,
-		`place` varchar(128) NOT NULL,
-		`bank` varchar(26) NOT NULL,
-		`avatar` varchar(128) NOT NULL,
-		PRIMARY KEY (`id`)
-	) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='Konta użytkowników serwisu' AUTO_INCREMENT=1 ;
-	\end{verbatim}
-	
 	\paragraph{Tytuł zadania.} Rejestracja;
 	\subparagraph{Wykonawca.} Kuba Niewczas;
 	\subparagraph{Realizacja.} Tworząc skrypt rejestacji przypisałem pobrane dane z formularza metodą \emph{POST} do zmiennych. W postaci zapytania \emph{MySQL} dane zawarte w zmiennych będą dodawane do bazy danych do tabeli \emph{users}. Zadanie nie wymagało zbyt wielkiego poświęcenia czasu gdyż składa się tylko z paru operacji.
 	
-	\begin{verbatim}
-		else if($_GET['action'] === "register")
-    		{
-			if(isset($_POST['registerSubmit']))
-			{
-			    $username = $_POST['registerName'];
-			    $password = $_POST['registerPassword'];
-			    $firstname = $_POST['registerFirstname'];
-			    $surname = $_POST['registerSurname'];
-			    $email = $_POST['registerEmail'];
-			    $place = $_POST['registerPlace'];
-			    $phone = $_POST['registerPhone'];
-			    $bank = $_POST['registerBank'];
-
-				mysql_query("INSERT INTO users (username, password, firstname, surname, email, phone, place, bank) VALUES ('".$username."', '".$password."', '".$firstname."', '".$surname."', '".$email."', '".$phone."', '".$place."', '".$bank."')");
-				header("Refresh:0; url=index.php?action=login");
-				echo "<script language='javascript'>alert('Pomyślnie założyłeś konto - możesz teraz się zalogować!');</script>";
-			}
-
-			$index = '
-			    <div class="container" style="margin-top: 20px;">
-				<div class="row">
-				    <div class="backgroundBox">
-					<form class="form-horizontal" action="" method="post">
-					    <div class="form-group">
-						<label for="userName" class="col-sm-2 control-label">Nazwa użytkownika</label>
-						<div class="col-sm-10">
-						    <input type="text" class="form-control input-lg" id="userName" name="registerName" placeholder="Wpisz tutaj nazwę, która będzie twoim identyfikatorem" required>
-						</div>
-					    </div>
-					    <div class="form-group">
-						<label for="userPassword" class="col-sm-2 control-label">Hasło</label>
-						<div class="col-sm-10">
-						    <input type="password" class="form-control input-lg" id="userPassword" name="registerPassword" placeholder="Wpisz tutaj hasło, które będzie zabezpieczać twoje konto" required>
-						</div>
-					    </div>
-					    <div class="form-group">
-						<label for="userFirstname" class="col-sm-2 control-label">Imię</label>
-						<div class="col-sm-10">
-						    <input type="text" class="form-control input-lg" id="userFirstname" name="registerFirstname" placeholder="Wpisz tutaj swoję imię" required>
-						</div>
-					    </div>
-					    <div class="form-group">
-						<label for="userSurname" class="col-sm-2 control-label">Nazwisko</label>
-						<div class="col-sm-10">
-						    <input type="text" class="form-control input-lg" id="userSurname" name="registerSurname" placeholder="Wpisz tutaj swoję nazwisko" required>
-						</div>
-					    </div>
-					    <div class="form-group">
-						<label for="userMail" class="col-sm-2 control-label">E-mail</label>
-						<div class="col-sm-10">
-						    <input type="email" class="form-control input-lg" id="userMail" name="registerEmail" placeholder="Wpisz tutaj swój e-mail" required>
-						</div>
-					    </div>
-					    <div class="form-group">
-						<label for="userPlace" class="col-sm-2 control-label">Miejscowość</label>
-						<div class="col-sm-10">
-						    <input type="text" class="form-control input-lg" id="userPlace" name="registerPlace" placeholder="Wpisz tutaj swoją miejscowość" required>
-						</div>
-					    </div>
-					    <div class="form-group">
-						<label for="userPhone" class="col-sm-2 control-label">Telefon</label>
-						<div class="col-sm-10">
-						    <input type="text" class="form-control input-lg" id="userPhone" name="registerPhone" placeholder="Wpisz tutaj swój numer telefonu" required>
-						</div>
-					    </div>
-					    <div class="form-group">
-						<label for="userBank" class="col-sm-2 control-label">Konto bankowe</label>
-						<div class="col-sm-10">
-						    <input type="text" class="form-control input-lg" id="userBank" name="registerBank" placeholder="Wpisz tutaj swój numer konta bankowego" required>
-						</div>
-					    </div>
-					    <div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-						    <button type="submit" name="registerSubmit" class="btn btn-default input-lg"><span style="font-size: 20px;">Zarejestruj!</span></button>
-						</div>
-					    </div>
-					</form>
-				    </div>
-				</div>
-			    </div>
-			';
-		}
-	\end{verbatim}
-	
 	\paragraph{Tytuł zadania.} Weryfikacja danych;
 	\subparagraph{Wykonawca.} Kuba Niewczas;
 	\subparagraph{Realizacja.} Do wcześniejszego zadania \textbf{Rejestracja} dodałem warunki, które muszą być spełnione aby użytkownik mógł założyć swoje konto. Użyłem zmiennych, które zostały zadeklarwane w bazowym zadaniu. Na początku wykonałem dwa zapytania do bazy danych aby sprawdzić czy wpisany \emph{login oraz hasło} istnieją już w bazie - jeśli tak to zwracana jest wiadomość, że konto na takie dane już istnieje. Lista warunków z backlogu została oskryptowana, w przypadku gdy skrypt ustali, że użytkownik popełnił błąd zostanie mu zwrócona informacja w postaci wyskakującego okienka \emph{JavaScriptu}.
-	
-	\begin{verbatim}
-		$query = mysql_query("SELECT NULL FROM users WHERE username LIKE '".$username."'");
-	    	$query2 = mysql_query("SELECT NULL FROM users WHERE email LIKE '".$email."'");
-
-		    if(mysql_num_rows($query) > 0)
-		    {
-			echo "<script language='javascript'>alert('Taka nazwa użytkownika jest zajęta - wybierz inną!');</script>";
-		    }
-		    else if(mysql_num_rows($query2) > 0)
-		    {
-			echo "<script language='javascript'>alert('Taki adres e-mail jest już zarejestrowany - wybierz inny!');</script>";
-		    }
-		    else if(strlen($username) > 32 || strlen($username) < 3)
-		    {
-			echo "<script language='javascript'>alert('Nazwa użytkownika powinna zawierać 3 - 32 znaków!');</script>";
-		    }
-		    else if(strlen($password) > 32 || strlen($password) < 3)
-		    {
-			echo "<script language='javascript'>alert('Hasło powinno zawierać 3 - 32 znaków!');</script>";
-		    }
-		    else if(strlen($firstname) > 64 || strlen($firstname) < 3)
-		    {
-			echo "<script language='javascript'>alert('Imię powinno zawierać 3 - 64 znaków!');</script>";
-		    }
-		    else if(preg_match('/[0-9]+/g', $firstname))
-		    {
-			echo "<script language='javascript'>alert('Imię powinno zawierać tylko litery!');</script>";
-		    }
-		    else if(strlen($surname) > 64 || strlen($surname) < 3)
-		    {
-			echo "<script language='javascript'>alert('Nazwisko powinno zawierać 3 - 64 znaków!');</script>";
-		    }
-		    else if(preg_match('/[0-9]+/g', $surname))
-		    {
-			echo "<script language='javascript'>alert('Nazwisko powinno zawierać tylko litery!');</script>";
-		    }
-		    else if(strlen($place) > 128 || strlen($place) < 3)
-		    {
-			echo "<script language='javascript'>alert('Miejscowość powinna zawierać 3 - 128 znaków!');</script>";
-		    }
-		    else if(strlen($phone) != 9)
-		    {
-			echo "<script language='javascript'>alert('Numer telefonu składa się z 9 cyfr!');</script>";
-		    }
-		    else if(!is_numeric($phone))
-		    {
-			echo "<script language='javascript'>alert('Numer telefonu składa się z samych cyfr!');</script>";
-		    }
-		    else if(strlen($bank) != 26)
-		    {
-			echo "<script language='javascript'>alert('Numer konta bankowego składa się z 26 cyfr!');</script>";
-		    }
-		    else if(!is_numeric($bank))
-		    {
-			echo "<script language='javascript'>alert('Numer konta bankowego składa się z samych cyfr!');</script>";
-		    }
-		    else
-		    {
-			mysql_query("INSERT INTO users (username, password, firstname, surname, email, phone, place, bank) VALUES ('".$username."', '".$password."', '".$firstname."', '".$surname."', '".$email."', '".$phone."', '".$place."', '".$bank."')");
-			header("Refresh:0; url=index.php?action=login");
-			echo "<script language='javascript'>alert('Pomyślnie założyłeś konto - możesz teraz się zalogować!');</script>";
-		    }
-	\end{verbatim}
 	
 	\subsection{Sprint Review/Demo}
 	Sprint został zakończony powodzeniem. Wszystkie załozone zadania zostały zrealizowane w ustalonym czasie. Zostały zrealizowane następujące zadania:
@@ -819,24 +531,15 @@
 	
 	\paragraph{Tytuł zadania.} Pasek nawigacji;
 	\subparagraph{Wykonawca.} Kuba Niewczas;
-	\subparagraph{Realizacja.} <<Sprawozdanie z realizacji zadania (w tym ocena zgodności z estymatą). Kod programu (środowisko \texttt{verbatim}): \begin{verbatim}
-	for (i=1; i<10; i++)
-	...
-	\end{verbatim}>>.
+	\subparagraph{Realizacja.} Pasek nawigacji stworzyłem u góry ekranu, zablokowałem go w tym miejscu na stałe używając wbudowanej opcji Bootstrap'a (framework, który używamy w projekcie) - \verb|navbar-fixed-top|, przez co będzie podążał razem ze stroną podczas scrollowania. Wygląd całego paska stworzyłem w \emph{CSS} - szerokość dopasowywuje się do wielkości ekranu, na którym wyświetlana jest strona a sama zawartość paska jest umiejscowiana od środka.
 	
 	\paragraph{Tytuł zadania.} Wyszukiwarka;
 	\subparagraph{Wykonawca.} Kuba Niewczas;
-	\subparagraph{Realizacja.} <<Sprawozdanie z realizacji zadania (w tym ocena zgodności z estymatą). Kod programu (środowisko \texttt{verbatim}): \begin{verbatim}
-	for (i=1; i<10; i++)
-	...
-	\end{verbatim}>>.
+	\subparagraph{Realizacja.} Obecne zadanie jest kontynuacją poprzedniego zadania \emph{(tj. pasek nawigacji)}. Na pasku dodałem jeden większy input formularza z wiadomością podpowiadającą do czego służy (gdy użytkownik napiszę jakieś hasło w inpucie wiadomość domyślna automatycznie się usuwa). Wpisane przez osobę hasło pobieram metodą \emph{POST} oraz przepuszczam przez funkcję \emph{htmlspecialchars()}, zwróconą wartość umieściłem w zapytaniu MySQL w postaci (\verb|[...]name LIKE %zmienna%[...]|). Ostatnim etapem jest przeniesienie osoby na podstronę, na której są wypisane aukcje, które zawierają ciąg wpisany w wyszukiwarkę.
 	
 	\paragraph{Tytuł zadania.} Panel konta;
 	\subparagraph{Wykonawca.} Kuba Niewczas;
-	\subparagraph{Realizacja.} <<Sprawozdanie z realizacji zadania (w tym ocena zgodności z estymatą). Kod programu (środowisko \texttt{verbatim}): \begin{verbatim}
-	for (i=1; i<10; i++)
-	...
-	\end{verbatim}>>.
+	\subparagraph{Realizacja.} Zadanie jest kontynuacją poprzedniego zadania \emph{(tj. pasek nawigacji)}. W przypadku gdy osoba nie jest zalogowana na swoję konto stworzyłem napis po prawej stronie wyszukiwarki \emph{Moje konto}, w które jeśli klikniemy pojawi się kwadracik a w nim mini-menu \emph{(tj. zarejestruj się oraz zaloguj się)} - po kliknięciu zostajemy przekierowani na odpowiednie podstrony. W przypadku gdy osoba jest zalogowana to obok wyszukiwarki wyświetla się awatar osoby w kształcie okręgu, który również można kliknąc i pojawi się mini-menu \emph{(tj. edytuj dane, moje aukcje, historia zakupów, wyloguj)} - podobnie jak wyżej, po kliknięciu w menu skrypt przekierowywuje nas na odpowiednią podstronę.
 	
 	\paragraph{Tytuł zadania.} Zmiana danych;
 	\subparagraph{Wykonawca.} Damian Klimek;
