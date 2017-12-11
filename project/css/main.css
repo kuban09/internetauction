@@ -1,14 +1,91 @@
+body
+{
+    background-color: #E8EEF2;
+}
+
 .navigationBar 
 {
-    background-color: #191919;
+    background-color: #37393A;
     color: #FFF;
-    border-bottom: 3px solid #CED0CE;
-    height: 65px;
+    border-bottom: 3px solid #AAB9CF;
+    height: 75px;
     width: 100%;
     padding: 0px;
 }
 
-body
+.navigationBarLogo
 {
-    background-color: #E6E8E6;
+    font-family: 'Saira Extra Condensed', sans-serif;
+    font-size: 35px;
+    color: #FCFCFC;
+}
+
+.navigationBarDesc
+{
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 15px;
+    color: #FCFCFC;
+    margin-top: -10px;
+    margin-left: 31px;
+}
+
+.userAvatar 
+{
+	line-height: 0;
+	display: inline-block;
+	margin: 5px;
+    border: 2px solid rgba(255,255,255,0.4);
+	border-radius: 50%;
+	transition: linear 0.25s;
+    height: 48px;
+    width: 48px;
+}
+
+.userAvatar:hover 
+{
+	transition: ease-out 0.2s;
+    border: 2px solid rgba(255,255,255,0.8);
+    -webkit-transition: ease-out 0.2s;
+}
+
+.alertBox
+{
+    background-color: #FEEFB3;
+    border-radius: 8px;
+    border: 1px solid #CEB151;
+    padding: 30px;
+    width: 100%;
+    color: #9F6000;
+    font-family: 'Dosis', sans-serif;
+}
+
+.mainBox
+{
+    background-color: #FFF;
+    color: #37393A;
+    border-radius: 4px;
+    padding: 20px;
+    font-family: 'Maitree', serif;
+}
+
+.backgroundBox
+{
+    background-color: #FFF;
+    color: #000;
+    font-family: 'Dosis', sans-serif;
+    font-size: 17px;
+    padding: 50px;
+}
+
+.myAccount
+{
+    font-family: Dosis, sans-serif;
+    font-size: 20px;
+    color: #FFF;
+}
+
+.formDesc
+{
+    font-family: 'Open Sans Condensed', sans-serif !important;
+    font-size: 17px !important;
 }
