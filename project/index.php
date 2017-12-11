@@ -826,7 +826,7 @@
     $navBar = '
         <div class="container-fluid">
             <div class="row">
-                <div class="navigationBar nav">
+                <div class="navigationBar nav navbar-fixed-top" style="z-index:99999;">
                     <div class="container">
                         <div class="row">
                             <div class="navbar-header">
@@ -912,7 +912,9 @@
             </head>
             <body>
                 '.$navBar.'
-                '.$index.'
+                <div style="margin-top: 100px;">
+                    '.$index.'
+                </div>
 
                 <script src="js/tooltips.js"></script>
             </body>
