@@ -529,6 +529,153 @@
             ';
         }
     }
+    else if($_GET['action'] === "editauction")
+    {
+        if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
+        {
+            $auctionID = intval($_GET['id']);
+            $query = mysql_query("SELECT * FROM users WHERE username LIKE '".$_SESSION['username']."' AND password LIKE '".$_SESSION['password']."'");
+            $userLogged = mysql_fetch_array($query);
+            $query = mysql_query("SELECT * FROM auctions WHERE id = ".$auctionID." AND owner = ".$userLogged['id']."");
+            $auctionInfo = mysql_fetch_array($query);
+
+            if(empty($_GET['id']) || mysql_num_rows($query) == 0)
+            {
+                header("Refresh:0; url=index.php");
+                echo "<script language='javascript'>alert('Błąd! Nie ma takiej aukcji lub nie ty ją dodałeś!');</script>";
+            }
+
+            $query = mysql_query("SELECT * FROM categories");
+            while ($row = mysql_fetch_array($query))
+            {
+                if($row['id'] == $auctionInfo['category'])
+                {
+                    $auctionCategories .= '
+                        <option value="'.$row[id].'" selected="selected">'.$row[name].'</option>
+                    ';
+                }
+                else
+                {
+                    $auctionCategories .= '
+                        <option value="'.$row[id].'">'.$row[name].'</option>
+                    ';
+                }
+                
+            }
+
+            if(isset($_POST['auctionSubmit']))
+            {
+                $name = $_POST['auctionName'];
+                $category = $_POST['auctionCategory'];
+                $description = $_POST['auctionDesc'];
+                $buyPrize = $_POST['auctionBuy'];
+                $biddingPrize = $_POST['auctionBid'];
+                $image = $_POST['auctionImage'];
+    
+                if(empty($buyPrize) && empty($biddingPrize))
+                {
+                    echo "<script language='javascript'>alert('Dwie ceny nie mogą być puste!');</script>";
+                }
+                else if($category == 0)
+                {
+                    echo "<script language='javascript'>alert('Nie wybrałeś kategorii!');</script>";
+                }
+                else if(!empty($buyPrize) && (!is_numeric($buyPrize)))
+                {
+                    echo "<script language='javascript'>alert('Cena kup teraz musi być liczbą!');</script>";
+                }
+                else if(!empty($buyBid) && (!is_numeric($buyBid)))
+                {
+                     echo "<script language='javascript'>alert('Cena licytacji musi być liczbą!');</script>";
+                }
+                else if(strlen($buyPrize) > 16 || strlen($biddingPrize) > 16)
+                {
+                    echo "<script language='javascript'>alert('Cena może być maksymalnie 16 liczbowa!');</script>";
+                }
+                else if(strlen($name) > 128)
+                {
+                    echo "<script language='javascript'>alert('Nazwa może mieć tylko 128 znaków!');</script>";
+                }
+                else if(strlen($description) > 128)
+                {
+                    echo "<script language='javascript'>alert('Opis może mieć tylko 512 znaków!');</script>";
+                }
+                else if(strlen($image) > 256)
+                {
+                    echo "<script language='javascript'>alert('Link do zdjęcia może mieć tylko 256 znaków!');</script>";
+                }
+                else
+                {
+                    //mysql_query("INSERT INTO auctions (name, owner, category, buy_prize, bidding_prize, description, image) VALUES ('".$name."', '".$userLogged[id]."', '".$category."', '".$buyPrize."', '".$biddingPrize."', '".$description."', '".$image."')");                
+                    mysql_query("UPDATE auctions SET name = '".$name."', category = '".$category."', buy_prize = '".$buyPrize."', bidding_prize = '".$biddingPrize."', description = '".$description."', image = '".$image."' WHERE id = '".$auctionID."' ");
+                    header("Refresh:0; url=index.php");
+                    echo "<script language='javascript'>alert('Pomyślnie zedytowałeś swoją aukcję!');</script>";
+                }
+            }
+
+            $description = htmlspecialchars($auctionInfo['description']);
+
+            $index = '
+                <div class="container" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="backgroundBox">
+                            <form class="form-horizontal" action="" method="post">
+                                <div class="form-group" style="padding-bottom: 30px;">
+                                    <div class="col-sm-1"></div>
+                                    <div class="input-group col-sm-11" data-toggle="tooltip" data-placement="left" title="Nazwa aukcji">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-list-alt"></i></span>
+                                        <input type="text" class="form-control input-lg align-middle" id="auctionName" name="auctionName" value="'.$auctionInfo[name].'" required>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding-bottom: 30px;">
+                                    <div class="col-sm-1"></div>
+                                    <div class="input-group col-sm-11" data-toggle="tooltip" data-placement="left" title="Kategoria">
+                                        <select class="form-control input-lg" name="auctionCategory">
+                                            <option value="0">Wybierz kategorie</option>
+                                            '.$auctionCategories.'
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding-bottom: 30px;">
+                                    <div class="col-sm-1"></div>
+                                    <div class="input-group col-sm-11" data-toggle="tooltip" data-placement="left" data-html="true" title="Opis aukcji">
+                                        <textarea rows="15" class="form-control input-lg col-sm-10" id="auctionDesc" name="auctionDesc" required>'.$description.'</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding-bottom: 30px;">
+                                    <div class="col-sm-1"></div>
+                                    <div class="input-group col-sm-11" data-toggle="tooltip" data-placement="left" title="Zdjęcie">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-camera"></i></span>
+                                        <input type="text" class="form-control input-lg" id="auctionImage" name="auctionImage" value="'.$auctionInfo[image].'"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding-bottom: 30px;">
+                                    <div class="col-sm-1"></div>
+                                    <div class="input-group col-sm-11" data-toggle="tooltip" data-placement="left" data-html="true" title="Cena Kup-Teraz">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-credit-card"></i></span>
+                                        <input type="text" class="form-control input-lg" id="auctionBuy" name="auctionBuy" value="'.$auctionInfo[buy_prize].'"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding-bottom: 30px;">
+                                    <div class="col-sm-1"></div>
+                                    <div class="input-group col-sm-11" data-toggle="tooltip" data-placement="left" data-html="true" title="Cena licytacji">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-credit-card"></i></span>
+                                        <input type="text" class="form-control input-lg" id="auctionBid" name="auctionBid" value="'.$auctionInfo[bidding_prize].'"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-1 col-sm-10">
+                                        <button type="submit" name="auctionSubmit" class="btn btn-default input-lg"><span style="font-size: 20px;">Edytuj aukcję!</span></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            ';
+        }
+    }
     else if($_GET['action'] === "category")
     {
         $categoryID = intval($_GET['id']);
