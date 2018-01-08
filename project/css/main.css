@@ -89,3 +89,16 @@ body
     font-family: 'Open Sans Condensed', sans-serif !important;
     font-size: 17px !important;
 }
+
+.button
+{
+    padding: 5px 15px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 15px;
+    background: #FF8C42;
+    color: #FFF;
+    font-size: 20px;
+}
