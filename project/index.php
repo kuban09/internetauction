@@ -533,6 +533,33 @@
     {
         if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
         {
+			if(isset($_POST['submit']))
+            {
+                $message = $_POST['commentary'];
+
+                mysql_query("INSERT INTO comments (owner, auction, message) VALUES ('".$user[id]."', '".$auctionID."', '".$message."')");
+                echo "<script language='javascript'>alert('Pomyślnie dodałeś komentarz!');</script>";
+                header("Refresh:0; url=index.php?action=showauction&id=".$auctionID."");
+            }
+			
+			$addComment = '
+				<div style="padding-top: 60px;">
+                                <form class="form-horizontal" action="" method="post">
+                                    <div class="form-group" style="padding-bottom: 30px;">
+                                        <div class="col-sm-1"></div>
+                                        <div class="input-group col-sm-12">
+                                            <textarea rows="6" class="form-control input-lg col-sm-10" name="commentary" placeholder="Wpisz tutaj swój komentarz do aukcji..." required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-5 col-sm-11">
+                                            <button type="submit" name="submit" class="btn btn-default input-lg"><span style="font-size: 20px;">WYŚLIJ KOMENTARZ!</span></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+			';
+		}
             $auctionID = intval($_GET['id']);
             $query = mysql_query("SELECT * FROM users WHERE username LIKE '".$_SESSION['username']."' AND password LIKE '".$_SESSION['password']."'");
             $userLogged = mysql_fetch_array($query);
@@ -592,15 +619,6 @@
                 }
             }
 
-            if(isset($_POST['submit']))
-            {
-                $message = $_POST['commentary'];
-
-                mysql_query("INSERT INTO comments (owner, auction, message) VALUES ('".$user[id]."', '".$auctionID."', '".$message."')");
-                echo "<script language='javascript'>alert('Pomyślnie dodałeś komentarz!');</script>";
-                header("Refresh:0; url=index.php?action=showauction&id=".$auctionID."");
-            }
-
             $index = '
                 <div class="container" style="margin-top: 20px;">
                     <div class="row">
@@ -627,27 +645,43 @@
                         <div class="backgroundBox">
                             <span style="font-size: 30px;">KOMENTARZE</span>
                             '.$comments.'
-                            <div style="padding-top: 60px;">
-                                <form class="form-horizontal" action="" method="post">
-                                    <div class="form-group" style="padding-bottom: 30px;">
-                                        <div class="col-sm-1"></div>
-                                        <div class="input-group col-sm-12">
-                                            <textarea rows="6" class="form-control input-lg col-sm-10" name="commentary" placeholder="Wpisz tutaj swój komentarz do aukcji..." required></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-5 col-sm-11">
-                                            <button type="submit" name="submit" class="btn btn-default input-lg"><span style="font-size: 20px;">WYŚLIJ KOMENTARZ!</span></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                            '.$addComment.'
                         </div>
                     </div>
                 </div>
             ';
-        }
     }
+	else if($_GET['action'] === "deleteauction")
+    {
+        if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
+        {
+            $auctionID = intval($_GET['id']);
+            $query = mysql_query("SELECT * FROM users WHERE username LIKE '".$_SESSION['username']."' AND password LIKE '".$_SESSION['password']."'");
+            $userLogged = mysql_fetch_array($query);
+            $query = mysql_query("SELECT * FROM auctions WHERE id = ".$auctionID."");
+			$auction = mysql_fetch_array($query);
+
+            if(empty($_GET['id']) || mysql_num_rows($query) == 0)
+            {
+                header("Refresh:0; url=index.php");
+                echo "<script language='javascript'>alert('Błąd! Nie ma takiej aukcji lub nie ty ją dodałeś!');</script>";
+            }
+			else
+			{
+				if($auction['owner'] == $userLogged['id'])
+				{
+					header("Refresh:0; url=index.php");
+					echo "<script language='javascript'>alert('Pomyślnie usunąłeś aukcję!');</script>";
+					mysql_query("DELETE FROM auctions WHERE id = '".$auctionID."'");
+				}
+				else
+				{
+					header("Refresh:0; url=index.php");
+					echo "<script language='javascript'>alert('Błąd! Nie jesteś właścicielem aukcji!');</script>";
+				}
+			}
+        }
+	}
     else if($_GET['action'] === "editauction")
     {
         if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
@@ -785,7 +819,8 @@
                                 <div class="form-group">
                                     <div class="col-sm-offset-1 col-sm-10">
                                         <button type="submit" name="auctionSubmit" class="btn btn-default input-lg"><span style="font-size: 20px;">Edytuj aukcję!</span></button>
-                                    </div>
+										<a href="index.php?action=deleteauction&id='.$auctionInfo["id"].'"> <button type="button" name="deleteSubmit" class="btn btn-default input-lg"><span style="font-size: 20px;">Usuń aukcję!</span></button></a>
+									</div>
                                 </div>
                             </form>
                         </div>
@@ -807,7 +842,62 @@
         }
         else
         {
+			$query = mysql_query("SELECT * FROM auctions WHERE category = ".$categoryID."");
+			while ($row = mysql_fetch_array($query))
+        {
+            $query2 = mysql_query("SELECT * FROM categories WHERE id = '".$row[category]."'");
+            $cat = mysql_fetch_array($query2);
 
+            if($row["buy_prize"] != 0)
+            {
+                $buyPrize = '
+                    <span style="font-size: 25px; color: #2F3E46;">'.$row["buy_prize"].' zł</span><br />
+                    <div style="margin-top: -10px;">
+                        <span style="font-size: 12px; color: #FF8C42;">KUP TERAZ</span>
+                    </div>
+                ';
+            }
+
+            if($row["bidding_prize"] != 0)
+            {
+                $biddingPrize = '
+                    <span style="font-size: 25px; color: #2F3E46;">'.$row["bidding_prize"].' zł</span><br />
+                    <div style="margin-top: -10px;">
+                        <span style="font-size: 12px; color: #FF8C42;">LICYTACJA</span>
+                    </div>
+                ';
+            }
+
+            $auctions .= '
+                <tr>
+                    <td class="col-xs-2">
+                        <a href="index.php?action=showauction&id='.$row[id].'"><img src="'.$row["image"].'" class="img-responsive" /></a>
+                    </td>
+                    <td class="col-xs-8">
+                        <span style="font-size: 25px;"><a href="index.php?action=showauction&id='.$row[id].'"><b>'.$row["name"].'</b></a></span><br />
+                        <span style="font-size: 14px;">('.$cat["name"].')</span>
+                    </td>
+                    <td class="col-xs-2">
+                        '.$buyPrize.'
+                        '.$biddingPrize.'
+                    </td>
+                </tr>
+                <tr style="height: 60px;"></tr>
+            ';
+        }
+		
+		$index = '
+			<div class="container" style="margin-top: 20px;">
+                <div class="row">
+					<div class="mainBox">
+						<table>
+							'.$auctions.'
+						</table>
+					</div>
+				</div>
+			</div>
+		';
+		
         }
     }
     else
