@@ -17,6 +17,7 @@
                     <ul class="dropdown-menu" role="menu" style="margin-left: -25px;">
                         <li><a href="index.php?action=editprofile">Edytuj dane</a></li>
                         <li><a href="index.php?action=changeavatar">Zmień avatar</a></li>
+                        <li><a href="index.php?action=messages">Wiadomości</a></li>
                         <li class="divider"></li>
                         <li><a href="index.php?action=newauction">Dodaj aukcję</a></li>
                         <li><a href="#">Moje aukcje</a></li>
@@ -469,7 +470,7 @@
         else
         {
             $searchItem = htmlspecialchars($searchItem);
-            $query = mysql_query("SELECT * FROM auctions WHERE name LIKE '%".$searchItem."%'");
+            $query = mysql_query("SELECT * FROM auctions WHERE name LIKE '%".$searchItem."%' AND buyer = '0'");
 
             while ($row = mysql_fetch_array($query))
             {
@@ -533,33 +534,6 @@
     {
         if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
         {
-			if(isset($_POST['submit']))
-            {
-                $message = $_POST['commentary'];
-
-                mysql_query("INSERT INTO comments (owner, auction, message) VALUES ('".$user[id]."', '".$auctionID."', '".$message."')");
-                echo "<script language='javascript'>alert('Pomyślnie dodałeś komentarz!');</script>";
-                header("Refresh:0; url=index.php?action=showauction&id=".$auctionID."");
-            }
-			
-			$addComment = '
-				<div style="padding-top: 60px;">
-                                <form class="form-horizontal" action="" method="post">
-                                    <div class="form-group" style="padding-bottom: 30px;">
-                                        <div class="col-sm-1"></div>
-                                        <div class="input-group col-sm-12">
-                                            <textarea rows="6" class="form-control input-lg col-sm-10" name="commentary" placeholder="Wpisz tutaj swój komentarz do aukcji..." required></textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-5 col-sm-11">
-                                            <button type="submit" name="submit" class="btn btn-default input-lg"><span style="font-size: 20px;">WYŚLIJ KOMENTARZ!</span></button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-			';
-		}
             $auctionID = intval($_GET['id']);
             $query = mysql_query("SELECT * FROM users WHERE username LIKE '".$_SESSION['username']."' AND password LIKE '".$_SESSION['password']."'");
             $userLogged = mysql_fetch_array($query);
@@ -576,7 +550,7 @@
             {
                 $buyPrize = '
                     <div style="float: left;"><span style="font-size: 25px;">Cena KUP-TERAZ:</span> <span style="font-size: 27px; color: #FF8C42;">'.$auctionInfo[buy_prize].' zł</span></div>
-                    <div style="float: right;"><input type="button" class="button" value="KUP PRZEDMIOT" /></div>
+                    <div style="float: right;"><a href="index.php?action=buy&id='.$auctionInfo['id'].'"><input type="button" class="button" value="KUP PRZEDMIOT" /></a></div>
                     <div style="float: none;"></div>
                 ';
             }
@@ -619,6 +593,15 @@
                 }
             }
 
+            if(isset($_POST['submit']))
+            {
+                $message = $_POST['commentary'];
+
+                mysql_query("INSERT INTO comments (owner, auction, message) VALUES ('".$user[id]."', '".$auctionID."', '".$message."')");
+                echo "<script language='javascript'>alert('Pomyślnie dodałeś komentarz!');</script>";
+                header("Refresh:0; url=index.php?action=showauction&id=".$auctionID."");
+            }
+
             $index = '
                 <div class="container" style="margin-top: 20px;">
                     <div class="row">
@@ -645,43 +628,248 @@
                         <div class="backgroundBox">
                             <span style="font-size: 30px;">KOMENTARZE</span>
                             '.$comments.'
-                            '.$addComment.'
+                            <div style="padding-top: 60px;">
+                                <form class="form-horizontal" action="" method="post">
+                                    <div class="form-group" style="padding-bottom: 30px;">
+                                        <div class="col-sm-1"></div>
+                                        <div class="input-group col-sm-12">
+                                            <textarea rows="6" class="form-control input-lg col-sm-10" name="commentary" placeholder="Wpisz tutaj swój komentarz do aukcji..." required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-5 col-sm-11">
+                                            <button type="submit" name="submit" class="btn btn-default input-lg"><span style="font-size: 20px;">WYŚLIJ KOMENTARZ!</span></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             ';
+        }
     }
-	else if($_GET['action'] === "deleteauction")
+    else if($_GET['action'] === "buy")
     {
         if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
         {
             $auctionID = intval($_GET['id']);
             $query = mysql_query("SELECT * FROM users WHERE username LIKE '".$_SESSION['username']."' AND password LIKE '".$_SESSION['password']."'");
             $userLogged = mysql_fetch_array($query);
-            $query = mysql_query("SELECT * FROM auctions WHERE id = ".$auctionID."");
-			$auction = mysql_fetch_array($query);
+            $query = mysql_query("SELECT * FROM auctions WHERE id = ".$auctionID." AND buyer = '0'");
+            $auctionInfo = mysql_fetch_array($query);
 
             if(empty($_GET['id']) || mysql_num_rows($query) == 0)
             {
                 header("Refresh:0; url=index.php");
-                echo "<script language='javascript'>alert('Błąd! Nie ma takiej aukcji lub nie ty ją dodałeś!');</script>";
+                echo "<script language='javascript'>alert('Błąd! Nie ma takiej aukcji lub przedmiot został kupiony!');</script>";
             }
-			else
-			{
-				if($auction['owner'] == $userLogged['id'])
-				{
-					header("Refresh:0; url=index.php");
-					echo "<script language='javascript'>alert('Pomyślnie usunąłeś aukcję!');</script>";
-					mysql_query("DELETE FROM auctions WHERE id = '".$auctionID."'");
-				}
-				else
-				{
-					header("Refresh:0; url=index.php");
-					echo "<script language='javascript'>alert('Błąd! Nie jesteś właścicielem aukcji!');</script>";
-				}
-			}
+            else
+            {
+                mysql_query("UPDATE auctions SET buyer = '".$userLogged['id']."' WHERE id = '".$auctionID."'");
+
+                $query = mysql_query("SELECT * FROM users WHERE id = '".$auctionInfo['owner']."'");
+                $owner = mysql_fetch_array($query);
+
+                //----------------------[WIADOMOŚĆ DO KUPUJĄCEGO]-------------------------------------
+                $message = '
+                    <b>Numer aukcji ('.$auctionInfo['id'].')!</b><br /><br />
+                    Oto dane kupującego:<br />
+                    Nazwa użytkownika: '.$owner['username'].'<br />
+                    Imię i nazwisko: '.$owner['firstname'].' '.$owner['surname'].'<br />
+                    Email: '.$owner['email'].'<br />
+                    Numer telefonu: '.$owner['phone'].'<br /><br /><br />
+                    WIADOMOŚĆ ZOSTAŁA WYSŁANA PRZEZ SYSTEM!
+                ';
+                mysql_query("INSERT INTO messages (owner, recipient, title, message, date, readed) VALUES ('".$userLogged['id']."', '0', 'Zakupiłeś przedmiot (".$auctionInfo['name'].")!', '".$message."', CURRENT_TIMESTAMP(), '0')");
+                //-----------------------------------------------------------------------------------------------------
+
+                //----------------------[WIADOMOŚĆ DO SPRZEDAJĄCEGO]-------------------------------------
+                $message = '
+                    <b>Numer aukcji ('.$auctionInfo['id'].')!</b><br /><br />
+                    Oto dane sprzedającego:<br />
+                    Nazwa użytkownika: '.$userLogged['username'].'<br />
+                    Imię i nazwisko: '.$userLogged['firstname'].' '.$userLogged['surname'].'<br />
+                    Email: '.$userLogged['email'].'<br />
+                    Numer telefonu: '.$userLogged['phone'].'<br />
+                    Numer konta bankowego: '.$userLogged['bank'].'<br />
+                    Adres: '.$userLogged['place'].'<br /><br /><br />
+                    WIADOMOŚĆ ZOSTAŁA WYSŁANA PRZEZ SYSTEM!
+                ';
+            mysql_query("INSERT INTO messages (owner, recipient, title, message, date, readed) VALUES ('".$owner['id']."', '0', 'Sprzedałeś przedmiot (".$auctionInfo['name'].")!', '".$message."', CURRENT_TIMESTAMP(), '0')");
+            //-----------------------------------------------------------------------------------------------------
+                echo "<script language='javascript'>alert('Pomyślnie kupiłeś przedmiot z aukcji!');</script>";
+                header("Refresh:0; url=index.php");
+            }
         }
-	}
+    }
+    else if($_GET['action'] === "newmessage")
+    {
+        if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
+        {
+            $query = mysql_query("SELECT * FROM users WHERE username LIKE '".$_SESSION['username']."' AND password LIKE '".$_SESSION['password']."'");
+            $userLogged = mysql_fetch_array($query);
+
+            if(isset($_POST['submit']))
+            {
+                $title = $_POST['title'];
+                $recipient = $_POST['username'];
+                $message = $_POST['message'];
+                
+                $query = mysql_query("SELECT * FROM users WHERE username LIKE '".$recipient."'");
+                $recipientInfo = mysql_fetch_array($query);
+
+                if(mysql_num_rows($query) == 0)
+                {
+                    echo "<script language='javascript'>alert('Błąd! Taki użytkownik nie istnieje');</script>";
+                    header("Refresh:0; url=index.php?action=newmessage");
+                }
+                else
+                {
+                    mysql_query("INSERT INTO messages (owner, recipient, title, message, readed) VALUES ('".$recipientInfo['id']."', '".$userLogged['id']."', '".$title."', '".$message."', '0')");
+                    echo "<script language='javascript'>alert('Wiadomość została wysłana!');</script>";
+                    header("Refresh:0; url=index.php");
+                }
+            }
+            $index = '
+                <div class="container" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="backgroundBox">
+                            <form class="form-horizontal" action="" method="post">
+                                <div class="form-group" style="padding-bottom: 30px;">
+                                    <div class="input-group col-sm-12">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-list-alt"></i></span>
+                                        <input type="text" class="form-control input-lg align-middle" id="title" name="title" placeholder="Tytuł wiadomości" required>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding-bottom: 30px;">
+                                    <div class="input-group col-sm-12">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input type="text" class="form-control input-lg align-middle" id="username" name="username" placeholder="Odbiorca wiadomości" required>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="padding-bottom: 30px;">
+                                    <div class="input-group col-sm-12">
+                                        <textarea rows="15" class="form-control input-lg col-sm-12" id="message" name="message" placeholder="Treść wiadomości..." required></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-10">
+                                        <button type="submit" name="submit" class="btn btn-default input-lg"><span style="font-size: 20px;">Wyślij wiadomość!</span></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            ';
+        }
+    }
+    else if($_GET['action'] === "messages")
+    {
+        if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
+        {
+            $messageID = intval($_GET['id']);
+
+            if(empty($messageID))
+            {
+                $query = mysql_query("SELECT * FROM users WHERE username LIKE '".$_SESSION['username']."' AND password LIKE '".$_SESSION['password']."'");
+                $userLogged = mysql_fetch_array($query);
+                $query = mysql_query("SELECT * FROM messages WHERE owner = '".$userLogged['id']."'");
+
+                if(mysql_num_rows($query) == 0)
+                {
+                    $messageList = 'Niestety ale nie posiadasz żadnych prywatnych wiadomości! :(';
+                }
+
+                while($row = mysql_fetch_array($query))
+                {
+                    if($row['recipient'] == 0)
+                    {
+                        $recipient = 'System';
+                    }
+                    else
+                    {
+                        $query2 = mysql_query("SELECT username FROM users WHERE id = '".$row['recipient']."'");
+                        $rec = mysql_fetch_array($query2);
+
+                        $recipient = $rec['username'];
+                    }
+
+                    if($row['readed'] == 0)
+                    {
+                        $messageList .= '
+                            <tr style="font-size: 23px;">
+                                <td><a href="index.php?action=messages&id='.$row['id'].'"><b>'.$row['id'].'</b></a></td>
+                                <td class="col-md-6"><a href="index.php?action=messages&id='.$row['id'].'"><b>'.$row['title'].'</b></a></td>
+                                <td class="col-md-3"><a href="index.php?action=messages&id='.$row['id'].'"><b>'.$row['date'].'</b></a></td>
+                                <td class="col-md-3"><a href="index.php?action=messages&id='.$row['id'].'"><b>'.$recipient.'</b></a></td>
+                            </tr>
+                        ';
+                    }
+                    else
+                    {
+                        $messageList .= '
+                            <tr style="font-size: 23px;">
+                                <td><a href="index.php?action=messages&id='.$row['id'].'">'.$row['id'].'</a></td>
+                                <td class="col-md-6"><a href="index.php?action=messages&id='.$row['id'].'">'.$row['title'].'</a></td>
+                                <td class="col-md-3"><a href="index.php?action=messages&id='.$row['id'].'">'.$row['date'].'</a></td>
+                                <td class="col-md-3"><a href="index.php?action=messages&id='.$row['id'].'">'.$recipient.'</a></td>
+                            </tr>
+                        ';
+                    }
+                }
+
+                $index = '
+                    <div class="container" style="margin-top: 20px;">
+                        <div class="row">
+                            <div class="backgroundBox">
+                                <table>
+                                    <tr style="font-size: 30px;">
+                                        <td>ID</td>
+                                        <td class="col-md-6">Tytuł</td>
+                                        <td class="col-md-3">Data wysłania</td>
+                                        <td class="col-md-3">Nadawca</td>
+                                    </tr>
+                                    <tr style="height: 20px;"></tr>
+                                    '.$messageList.'
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                ';
+            }
+            else
+            {
+                $query = mysql_query("SELECT * FROM messages WHERE id = '".$messageID."' AND owner = '".$userLogged['id']."'");
+                $message = mysql_fetch_array($query);
+
+                if($message['readed'] == 0)
+                {
+                    mysql_query("UPDATE messages SET readed = '1' WHERE id = '".$message['id']."'");
+                }
+
+                if(mysql_num_rows($query) == 0)
+                {
+                    header("Refresh:0; url=index.php?action=messages");
+                    echo "<script language='javascript'>alert('Błąd! Nie ma takiej wiadomości bądź nie należy do ciebie!');</script>";
+                }
+                else
+                {
+                    $index = '
+                        <div class="container" style="margin-top: 20px;">
+                            <div class="row">
+                                <div class="backgroundBox">
+                                    <span style="font-size: 35px;">'.$message['title'].'</span><br /><br />
+                                    <span style="font-size: 25px;">'.$message['message'].'</span>
+                                </div>
+                            </div>
+                        </div>
+                    ';
+                }
+            }
+        }
+    }
     else if($_GET['action'] === "editauction")
     {
         if(!empty($_SESSION['username']) || !empty($_SESSION['password']))
@@ -819,8 +1007,7 @@
                                 <div class="form-group">
                                     <div class="col-sm-offset-1 col-sm-10">
                                         <button type="submit" name="auctionSubmit" class="btn btn-default input-lg"><span style="font-size: 20px;">Edytuj aukcję!</span></button>
-										<a href="index.php?action=deleteauction&id='.$auctionInfo["id"].'"> <button type="button" name="deleteSubmit" class="btn btn-default input-lg"><span style="font-size: 20px;">Usuń aukcję!</span></button></a>
-									</div>
+                                    </div>
                                 </div>
                             </form>
                         </div>
@@ -830,6 +1017,7 @@
             ';
         }
     }
+
     else if($_GET['action'] === "category")
     {
         $categoryID = intval($_GET['id']);
@@ -842,62 +1030,7 @@
         }
         else
         {
-			$query = mysql_query("SELECT * FROM auctions WHERE category = ".$categoryID."");
-			while ($row = mysql_fetch_array($query))
-        {
-            $query2 = mysql_query("SELECT * FROM categories WHERE id = '".$row[category]."'");
-            $cat = mysql_fetch_array($query2);
 
-            if($row["buy_prize"] != 0)
-            {
-                $buyPrize = '
-                    <span style="font-size: 25px; color: #2F3E46;">'.$row["buy_prize"].' zł</span><br />
-                    <div style="margin-top: -10px;">
-                        <span style="font-size: 12px; color: #FF8C42;">KUP TERAZ</span>
-                    </div>
-                ';
-            }
-
-            if($row["bidding_prize"] != 0)
-            {
-                $biddingPrize = '
-                    <span style="font-size: 25px; color: #2F3E46;">'.$row["bidding_prize"].' zł</span><br />
-                    <div style="margin-top: -10px;">
-                        <span style="font-size: 12px; color: #FF8C42;">LICYTACJA</span>
-                    </div>
-                ';
-            }
-
-            $auctions .= '
-                <tr>
-                    <td class="col-xs-2">
-                        <a href="index.php?action=showauction&id='.$row[id].'"><img src="'.$row["image"].'" class="img-responsive" /></a>
-                    </td>
-                    <td class="col-xs-8">
-                        <span style="font-size: 25px;"><a href="index.php?action=showauction&id='.$row[id].'"><b>'.$row["name"].'</b></a></span><br />
-                        <span style="font-size: 14px;">('.$cat["name"].')</span>
-                    </td>
-                    <td class="col-xs-2">
-                        '.$buyPrize.'
-                        '.$biddingPrize.'
-                    </td>
-                </tr>
-                <tr style="height: 60px;"></tr>
-            ';
-        }
-		
-		$index = '
-			<div class="container" style="margin-top: 20px;">
-                <div class="row">
-					<div class="mainBox">
-						<table>
-							'.$auctions.'
-						</table>
-					</div>
-				</div>
-			</div>
-		';
-		
         }
     }
     else
@@ -912,7 +1045,7 @@
             ';
         }
 
-        $query = mysql_query("SELECT * FROM auctions ORDER BY id DESC");
+        $query = mysql_query("SELECT * FROM auctions WHERE buyer = '0' ORDER BY id DESC");
         while ($row = mysql_fetch_array($query))
         {
             $query2 = mysql_query("SELECT * FROM categories WHERE id = '".$row[category]."'");
@@ -953,6 +1086,24 @@
                     </td>
                 </tr>
                 <tr style="height: 60px;"></tr>
+            ';
+        }
+
+        $query = mysql_query("SELECT * FROM users WHERE username LIKE '".$_SESSION['username']."' AND password LIKE '".$_SESSION['password']."'");
+        $userLogged = mysql_fetch_array($query);
+        $query = mysql_query("SELECT * FROM messages WHERE owner = '".$userLogged['id']."' AND readed = '0'");
+
+        while($row = mysql_fetch_array($query))
+        {
+            $unreadedMessage .= '
+                <div class="container" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="alertMessageBox">
+                            <span style="font-size: 20px;"><strong>Nieprzeczytana wiadomość!</strong></span>
+                            <p style="font-size: 15px;">Tytuł wiadomości: <a href="index.php?action=messages&id='.$row['id'].'">'.$row['title'].'</a></p> 
+                        </div>
+                    </div>
+                </div>
             ';
         }
 
@@ -998,6 +1149,7 @@
         else
         {
             $index = '
+                '.$unreadedMessage.'
                 <div class="container" style="margin-top: 20px;">
                     <div class="row justify-content-center">
                         <div class="col-md-3">
