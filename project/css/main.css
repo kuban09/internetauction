@@ -59,6 +59,17 @@ body
     font-family: 'Dosis', sans-serif;
 }
 
+.alertMessageBox
+{
+    background-color: #92B4A7;
+    border-radius: 8px;
+    border: 1px solid #819D92;
+    padding: 7px;
+    width: 100%;
+    color: #537366;
+    font-family: 'Dosis', sans-serif;
+}
+
 .mainBox
 {
     background-color: #FFF;
